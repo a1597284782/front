@@ -174,7 +174,7 @@ export default {
   methods: {
     // 获取验证码
     _getCode () {
-      let sid = this.$store.state.sid
+      const sid = this.$store.state.sid
       getCode(sid).then((res) => {
         if (res.code === 200) {
           this.svg = res.data
@@ -195,6 +195,7 @@ export default {
         code: this.code,
         sid: this.$store.state.sid
       }).then((res) => {
+        // console.log('submit -> res', res)
         if (res.code === 200) {
           this.username = ''
           this.password = ''
@@ -209,7 +210,6 @@ export default {
           setTimeout(() => {
             this.$router.push('/login')
           }, 1000)
-          console.log(res)
         } else {
           // username -> '用户名已经注册'
           // res.msg = { username: [], name: [], code: []}

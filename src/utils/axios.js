@@ -20,6 +20,7 @@ class HttpRequest {
     }
     return config
   }
+
   // 设定拦截器
   interceptors (instance) {
     // 添加请求拦截器
@@ -54,6 +55,7 @@ class HttpRequest {
       }
     )
   }
+
   // 创建实例
   request (options) {
     const instance = axios.create()
@@ -62,11 +64,13 @@ class HttpRequest {
     this.interceptors(instance)
     return instance(newOpitons)
   }
+
   // 封装 get 请求
   get (url, config) {
     const options = Object.assign({ method: 'get', url: url }, config)
     return this.request(options)
   }
+
   // 封装 post 请求
   post (url, data) {
     return this.request({

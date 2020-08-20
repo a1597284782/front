@@ -155,9 +155,9 @@ export default {
   methods: {
     // 获取验证码
     _getCode () {
-      let sid = this.$store.state.sid
+      const sid = this.$store.state.sid
       getCode(sid).then((res) => {
-        console.log(res)
+        // console.log('_getCode -> res', res)
         if (res.code === 200) {
           this.svg = res.data
         }
@@ -170,7 +170,7 @@ export default {
         code: this.code,
         sid: this.$store.state.sid
       }).then((res) => {
-        console.log(res)
+        // console.log('submit -> res', res)
         if (res.code === 200) {
           this.$alert('邮件发送成功！')
         } else if (res.code === 401) {

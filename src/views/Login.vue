@@ -171,9 +171,9 @@ export default {
   methods: {
     // 获取验证码
     _getCode () {
-      let sid = this.$store.state.sid
+      const sid = this.$store.state.sid
       getCode(sid).then(res => {
-        console.log(res)
+        // console.log('_getCode -> res', res)
         if (res.code === 200) {
           this.svg = res.data
         }
@@ -185,14 +185,14 @@ export default {
       if (!isValid) {
         return
       }
-      console.log('submit')
+      // console.log('submit')
       login({
         username: this.username,
         password: this.password,
         code: this.code,
         sid: this.$store.state.sid
       }).then(res => {
-        console.log(res)
+        // console.log('submit -> res', res)
         if (res.code === 200) {
           this.username = ''
           this.password = ''
@@ -206,7 +206,7 @@ export default {
           this.$alert('用户名密码校验失败，请检查！')
         }
       }).catch(err => {
-        console.log(err.response)
+        // console.log('submit -> err', err)
         const data = err.response.data
         if (data.code === 500) {
           this.$alert('服务器错误！')
