@@ -172,6 +172,7 @@ export default {
     this._getCode()
   },
   methods: {
+    // 获取验证码
     _getCode () {
       let sid = this.$store.state.sid
       getCode(sid).then((res) => {
@@ -180,6 +181,7 @@ export default {
         }
       })
     },
+    // 注册按钮
     async submit () {
       const isValid = await this.$refs.observer.validate()
       if (!isValid) {

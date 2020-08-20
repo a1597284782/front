@@ -4,14 +4,18 @@
       <div class="layui-tab layui-tab-brief" lay-filter="user">
         <ul class="layui-tab-title">
           <li>
-            <router-link :to="{name: 'login'}">登入</router-link>
+            <router-link :to="{ name: 'login' }">登入</router-link>
           </li>
           <li class="layui-this">
             找回密码
             <!--重置密码-->
           </li>
         </ul>
-        <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
+        <div
+          class="layui-form layui-tab-content"
+          id="LAY_ucm"
+          style="padding: 20px 0;"
+        >
           <div class="layui-tab-item layui-show">
             <!-- 重置密码 -->
             <!--
@@ -56,7 +60,11 @@
               <form method="post">
                 <div class="layui-form-item">
                   <label for="L_email" class="layui-form-label">用户名</label>
-                  <validation-provider name="email" rules="required|email" v-slot="{errors}">
+                  <validation-provider
+                    name="email"
+                    rules="required|email"
+                    v-slot="{ errors }"
+                  >
                     <div class="layui-input-inline">
                       <input
                         type="text"
@@ -68,14 +76,21 @@
                       />
                     </div>
                     <div class="layui-form-mid">
-                      <span style="color: #c00;">{{errors[0]}}</span>
+                      <span style="color: #c00;">{{ errors[0] }}</span>
                     </div>
                   </validation-provider>
                 </div>
                 <div class="layui-form-item">
-                  <validation-provider name="code" rules="required|length:4" v-slot="{errors}">
+                  <validation-provider
+                    name="code"
+                    rules="required|length:4"
+                    v-slot="{ errors }"
+                    ref="codefield"
+                  >
                     <div class="layui-row">
-                      <label for="L_vercode" class="layui-form-label">验证码</label>
+                      <label for="L_vercode" class="layui-form-label"
+                        >验证码</label
+                      >
                       <div class="layui-input-inline">
                         <input
                           type="text"
@@ -87,16 +102,28 @@
                         />
                       </div>
                       <div class>
-                        <span class="svg" style="color: #c00;" @click="_getCode()" v-html="svg"></span>
+                        <span
+                          class="svg"
+                          style="color: #c00;"
+                          @click="_getCode()"
+                          v-html="svg"
+                        ></span>
                       </div>
                     </div>
                     <div class="layui-form-mid">
-                      <span style="color: #c00;">{{errors[0]}}</span>
+                      <span style="color: #c00;">{{ errors[0] }}</span>
                     </div>
                   </validation-provider>
                 </div>
                 <div class="layui-form-item">
-                  <button type="button" class="layui-btn" alert="1" @click="submit()">提交</button>
+                  <button
+                    type="button"
+                    class="layui-btn"
+                    alert="1"
+                    @click="submit()"
+                  >
+                    提交
+                  </button>
                 </div>
               </form>
             </div>
@@ -126,22 +153,30 @@ export default {
     this._getCode()
   },
   methods: {
+    // 获取验证码
     _getCode () {
-      getCode().then((res) => {
+      let sid = this.$store.state.sid
+      getCode(sid).then((res) => {
         console.log(res)
         if (res.code === 200) {
           this.svg = res.data
         }
       })
     },
+    // 提交按钮
     submit () {
       forget({
         username: this.username,
-        code: this.code
+        code: this.code,
+        sid: this.$store.state.sid
       }).then((res) => {
         console.log(res)
         if (res.code === 200) {
-          alert('邮件发送成功')
+          this.$alert('邮件发送成功！')
+        } else if (res.code === 401) {
+          this.$refs.codefield.setErrors([res.msg])
+        } else {
+          this.$alert('邮件发送失败！')
         }
       })
     }

@@ -29,7 +29,14 @@ export default new Router({
     {
       path: '/forget',
       name: 'forget',
-      component: Forget
+      component: Forget,
+      beforeEnter: (to, from, next) => {
+        if (from.name === 'login') {
+          next()
+        } else {
+          next('/login')
+        }
+      }
     }
   ]
 })
