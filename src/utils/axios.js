@@ -2,11 +2,15 @@
 // 对错误的统一处理
 
 import axios from 'axios'
+// 封装 错误 处理
 import errorHandle from './errorHandle'
+
+const CancelToken = axios.CancelToken
 
 class HttpRequest {
   constructor (baseURL) {
     this.baseURL = baseURL
+    this.pending = {}
   }
 
   // 获取配置
@@ -21,6 +25,14 @@ class HttpRequest {
     return config
   }
 
+  // 取消重复请求
+  removePending (key, isRequest = false) {
+    if (this.pending[key] && isRequest) {
+      this.pending[key]('取消重复请求')
+    }
+    delete this.pending[key]
+  }
+
   // 设定拦截器
   interceptors (instance) {
     // 添加请求拦截器
@@ -28,6 +40,11 @@ class HttpRequest {
       config => {
         // 在发送请求之前做些什么
         // console.log('config:', config)
+        const key = config.url + '&' + config.method
+        this.removePending(key, true)
+        config.cancelToken = new CancelToken((c) => {
+          this.pending[key] = c
+        })
         return config
       },
       err => {
@@ -40,8 +57,10 @@ class HttpRequest {
     // 添加响应拦截器
     instance.interceptors.response.use(
       res => {
-        // console.log('res:', res)
+        // // console.log('res:', res)
         // 对响应数据做点什么
+        const key = res.config.url + '&' + res.config.method
+        this.removePending(key)
         if (res.status === 200) {
           return Promise.resolve(res.data)
         } else {

@@ -6,7 +6,7 @@
           <a href="/">首页</a>
         </router-link>
         <router-link v-for="(item,index) in lists" :key="'panel'+ index" tag="li" :to="item.path">
-          <a href="jie/index.html">
+          <a href="">
             {{item.name}}
             <span class="layui-badge-dot" v-if="item.isNew"></span>
           </a>
