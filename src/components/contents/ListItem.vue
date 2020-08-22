@@ -19,19 +19,15 @@
             <i
               class="layui-badge fly-badge-vip"
               v-if="item.uid.isVip !== '0'"
-              >{{ 'VIP' + item.uid.isVip }}</i
-            >
+            >{{ 'VIP' + item.uid.isVip }}</i>
           </a>
           <span>{{ item.created | moment }}</span>
 
-          <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"
-            ><i class="iconfont icon-kiss"></i>{{ item.fav }}</span
-          >
-          <span
-            class="layui-badge fly-badge-accept layui-hide-xs"
-            v-show="item.isEnd !== '0'"
-            >已结</span
-          >
+          <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻">
+            <i class="iconfont icon-kiss"></i>
+            {{ item.fav }}
+          </span>
+          <span class="layui-badge fly-badge-accept layui-hide-xs" v-show="item.isEnd !== '0'">已结</span>
           <span class="fly-list-nums">
             <i class="iconfont icon-pinglun1" title="回答"></i>
             {{ item.answer }}
@@ -43,8 +39,7 @@
             v-for="(tag, index) in item.tags"
             :key="'tag' + index"
             :class="tag.class"
-            >{{tag.name}}</span
-          >
+          >{{tag.name}}</span>
         </div>
       </li>
     </ul>
@@ -52,9 +47,7 @@
       <div class="laypage-main" v-if="!isEnd">
         <a class="laypage-next" @click.prevent="more()">更多求解</a>
       </div>
-      <div class="nomore gray" v-else>
-        没有更多了
-      </div>
+      <div class="nomore gray" v-else>没有更多了</div>
     </div>
   </div>
 </template>

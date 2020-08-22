@@ -7,8 +7,7 @@
         class="layui-hide-sm layui-show-xs-block fly-right"
         id="LAY_goSignin"
         style="color: #ff5722;"
-        >去签到</a
-      >
+      >去签到</a>
     </div>
     <list-item :lists="lists" :isShow="false"></list-item>
   </div>
