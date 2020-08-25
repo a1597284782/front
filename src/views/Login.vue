@@ -165,6 +165,7 @@ export default {
       sid = uuid()
       localStorage.setItem('sid', sid)
     }
+    // 更新 vuex 的 sid
     this.$store.commit('setSid', sid)
     this._getCode()
   },
@@ -194,12 +195,19 @@ export default {
       }).then(res => {
         // console.log('submit -> res', res)
         if (res.code === 200) {
+          console.log('submit -> res', res.data)
+          // 登陆成功后 保存 用户信息
+          this.$store.commit('setUserInfo', res.data)
+          // 设置登陆状态
+          this.$store.commit('setIsLogin', true)
+
           this.username = ''
           this.password = ''
           this.code = ''
           requestAnimationFrame(() => {
             this.$refs.observer.reset()
           })
+          this.$router.push({ name: 'index' })
         } else if (res.code === 401) {
           this.$refs.codefield.setErrors([res.msg])
         } else if (res.code === 404) {
