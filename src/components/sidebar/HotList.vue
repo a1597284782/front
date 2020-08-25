@@ -6,7 +6,7 @@
         <a href="jie/detail.html">{{item.title}}</a>
         <span>
           <i class="iconfont icon-pinglun1"></i>
-          {{item.count}}
+          {{item.answer}}
         </span>
       </dd>
 

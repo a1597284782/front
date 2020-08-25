@@ -40,7 +40,7 @@ export default {
       // 标签，如：精华
       tag: '',
       // 按最新 或 按热议 排序
-      sort: '',
+      sort: 'created',
       // 当前页码
       page: 0,
       // 一页多少条数据
