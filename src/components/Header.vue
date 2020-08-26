@@ -2,7 +2,7 @@
   <div class="fly-header layui-bg-black">
     <div class="layui-container">
       <a class="fly-logo" href="/">
-        <img src="../assets/logo-2.png" alt="layui" />
+        <img src="../assets/img/logo-2.png" alt="layui" />
       </a>
       <ul class="layui-nav fly-nav layui-hide-xs">
         <li class="layui-nav-item layui-this">
@@ -54,7 +54,7 @@
 
         <!-- 登入后的状态 -->
         <template v-else>
-          <li class="layui-nav-item">
+          <li class="layui-nav-item" @mouseover="show()" @mouseout="hide()">
             <a class="fly-nav-avatar" href="javascript:;">
               <cite class="layui-hide-xs">{{userInfo.name}}</cite>
               <!-- <i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：layui 作者"></i> -->
@@ -64,7 +64,10 @@
               >VIP{{userInfo.isVip}}</i>
               <img :src="'http://localhost:3000' + userInfo.pic" />
             </a>
-            <dl class="layui-nav-child">
+            <dl
+              class="layui-nav-child layui-anim layui-anim-upbit"
+              :class="{'layui-show': isHover}"
+            >
               <dd>
                 <a href="user/set.html">
                   <i class="layui-icon">&#xe620;</i>基本设置
@@ -95,6 +98,13 @@
 <script>
 export default {
   name: 'Header',
+  data () {
+    return {
+      // 是否显示 菜单
+      isHover: false,
+      hoverCtrl: {}
+    }
+  },
   computed: {
     isShow () {
       return this.$store.state.isLogin
@@ -105,6 +115,22 @@ export default {
         pic: '',
         isVip: 0
       }
+    }
+  },
+  methods: {
+    // 鼠标移入时，显示菜单
+    show () {
+      clearTimeout(this.hoverCtrl)
+      this.hoverCtrl = setTimeout(() => {
+        this.isHover = true
+      }, 200)
+    },
+    // 鼠标移出时，隐藏菜单
+    hide () {
+      clearTimeout(this.hoverCtrl)
+      this.hoverCtrl = setTimeout(() => {
+        this.isHover = false
+      }, 500)
     }
   }
 }
