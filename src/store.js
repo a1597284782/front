@@ -18,9 +18,18 @@ export default new Vuex.Store({
     setSid (state, value) {
       state.sid = value
     },
+    // 更新 token
+    setToken (state, value) {
+      state.token = value
+      // 本地存储用 token
+      localStorage.setItem('token', value)
+    },
     // 设置用户的基本信息
     setUserInfo (state, value) {
+      if (value === '') return
       state.userInfo = value
+      // 本地存储用户基本信息
+      localStorage.setItem('userInfo', JSON.stringify(value))
     },
     // 设置登陆状态
     setIsLogin (state, value) {

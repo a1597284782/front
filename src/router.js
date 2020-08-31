@@ -3,6 +3,8 @@ import Router from 'vue-router'
 
 import Home from './views/Home.vue'
 
+import store from '@/store'
+
 const Login = () => import('./views/Login.vue')
 const Reg = () => import('./views/Reg.vue')
 const Forget = () => import('./views/Forget.vue')
@@ -15,10 +17,16 @@ const Settings = () => import('./components/user/Settings.vue')
 const Posts = () => import('./components/user/Posts.vue')
 const Msg = () => import('./components/user/Msg.vue')
 const Others = () => import('./components/user/Others.vue')
+const MyInfo = () => import('./components/user/common/MyInfo.vue')
+const PicUpload = () => import('./components/user/common/PicUpload.vue')
+const Passwd = () => import('./components/user/common/Passwd.vue')
+const Accounts = () => import('./components/user/common/Accounts.vue')
+const MyPost = () => import('./components/user/common/MyPost.vue')
+const MyCollection = () => import('./components/user/common/MyCollection.vue')
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   linkExactActiveClass: 'layui-this',
   // linkActiveClass: 'layui-this',
   routes: [
@@ -77,6 +85,7 @@ export default new Router({
     {
       path: '/center',
       component: Center,
+      meta: { requiresAuth: true },
       linkActiveClass: 'layui-this',
       children: [
         {
@@ -87,12 +96,46 @@ export default new Router({
         {
           path: 'set',
           name: 'set',
-          component: Settings
+          component: Settings,
+          children: [
+            {
+              path: '',
+              name: 'info',
+              component: MyInfo
+            },
+            {
+              path: 'pic',
+              name: 'pic',
+              component: PicUpload
+            },
+            {
+              path: 'passwd',
+              name: 'passwd',
+              component: Passwd
+            },
+            {
+              path: 'account',
+              name: 'account',
+              component: Accounts
+            }
+          ]
         },
         {
           path: 'posts',
           name: 'posts',
-          component: Posts
+          component: Posts,
+          children: [
+            {
+              path: '',
+              name: 'mypost',
+              component: MyPost
+            },
+            {
+              path: 'mycollection',
+              name: 'mycollection',
+              component: MyCollection
+            }
+          ]
         },
         {
           path: 'msg',
@@ -108,3 +151,32 @@ export default new Router({
     }
   ]
 })
+
+// 全局导航守卫
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token')
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+  if (token !== '' && token !== null) {
+    store.commit('setToken', token)
+    store.commit('setUserInfo', userInfo)
+    store.commit('setIsLogin', true)
+  }
+  // 获取 meta 元信息， 如果有则需要登陆鉴权
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    const isLogin = store.state.isLogin
+    // 需要用户登陆的页面
+    if (isLogin) {
+      // 已登录
+      // 权限的判断
+      next()
+    } else {
+      // 未登录
+      next('/login')
+    }
+  } else {
+    // 不需要用户登陆的页面
+    next()
+  }
+})
+
+export default router

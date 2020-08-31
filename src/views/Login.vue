@@ -200,10 +200,13 @@ export default {
           this.$store.commit('setUserInfo', res.data)
           // 设置登陆状态
           this.$store.commit('setIsLogin', true)
+          // 本地存储用 token
+          this.$store.commit('setToken', res.token)
 
           this.username = ''
           this.password = ''
           this.code = ''
+
           requestAnimationFrame(() => {
             this.$refs.observer.reset()
           })

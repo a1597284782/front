@@ -1,6 +1,6 @@
 <template>
-  <div>
-user-others
+  <div class="fly-panel fly-panel-user flex" pad20>
+    正在开发中。。
   </div>
 </template>
 
@@ -11,5 +11,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #333;
+}
 
 </style>
