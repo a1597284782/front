@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '@/store'
+import jwt from 'jsonwebtoken'
+import moment from 'dayjs'
 
 import Home from './views/Home.vue'
-
-import store from '@/store'
 
 const Login = () => import('./views/Login.vue')
 const Reg = () => import('./views/Reg.vue')
@@ -95,7 +96,6 @@ const router = new Router({
         },
         {
           path: 'set',
-          name: 'set',
           component: Settings,
           children: [
             {
@@ -122,7 +122,6 @@ const router = new Router({
         },
         {
           path: 'posts',
-          name: 'posts',
           component: Posts,
           children: [
             {
@@ -155,11 +154,21 @@ const router = new Router({
 // 全局导航守卫
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
+
   const userInfo = JSON.parse(localStorage.getItem('userInfo'))
   if (token !== '' && token !== null) {
-    store.commit('setToken', token)
-    store.commit('setUserInfo', userInfo)
-    store.commit('setIsLogin', true)
+    const payload = jwt.decode(token)
+    console.log('payload', payload)
+    // 判断 token 是否过期， 方法二
+    // console.log(JSON.parse(atob(token.split('.')[1])).exp * 1000 > (new Date()).getTime())
+    // 判断 token 是否过期， 方法一
+    if (moment().isBefore(moment(payload.exp * 1000))) {
+      store.commit('setToken', token)
+      store.commit('setUserInfo', userInfo)
+      store.commit('setIsLogin', true)
+    } else {
+      localStorage.clear()
+    }
   }
   // 获取 meta 元信息， 如果有则需要登陆鉴权
   if (to.matched.some(record => record.meta.requiresAuth)) {

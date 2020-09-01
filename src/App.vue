@@ -21,9 +21,22 @@ export default {
 <style lang="scss">
 @import url('./assets/css/global.css');
 // 公共样式
+.svg {
+  position: relative;
+  top: -4px;
+  cursor: pointer;
+}
 .gray {
   color: #999;
 }
+.orange {
+  color: #ff5722;
+}
+
+.pull-right {
+  float: right;
+}
+
 .pd20 {
   padding: 20px;
 }
@@ -31,13 +44,16 @@ export default {
 // scss 的 for 循环
 @for $i from 0 to 5 {
   .pd#{$i} {
-    padding: $i * 10 + px;
+    padding: $i * 10 + px !important;
   }
   .pl#{$i} {
-    padding-left: $i * 10 + px;
+    padding-left: $i * 10 + px !important;
   }
   .pr#{$i} {
-    padding-right: $i * 10 + px;
+    padding-right: $i * 10 + px !important;
+  }
+  .mr#{$i} {
+    margin-right: $i * 10 + px !important;
   }
 }
 

@@ -3,9 +3,9 @@
     <div class="fly-panel-title">
       签到
       <i class="fly-mid"></i>
-      <a href="javascript:;" class="fly-link" id="LAY_signinHelp">说明</a>
+      <a href="javascript:;" class="fly-link" id="LAY_signinHelp" @click="showInfo()">说明</a>
       <i class="fly-mid"></i>
-      <a href="javascript:;" class="fly-link" id="LAY_signinTop">
+      <a href="javascript:;" class="fly-link" id="LAY_signinTop" @click="showTop()">
         活跃榜
         <span class="layui-badge-dot"></span>
       </a>
@@ -27,14 +27,124 @@
           <span>获得了<cite>20</cite>飞吻</span>
       -->
     </div>
+    <!-- 签到说明 -->
+    <sign-info :isShow="isShow" @closeModal="close()"></sign-info>
+    <!-- 活跃榜 -->
+    <sign-list :isShow="showList" @closeModal="close()"></sign-list>
   </div>
 </template>
 
 <script>
+import SignInfo from './SignInfo'
+import SignList from './SignList'
+
 export default {
-  name: 'sign'
+  name: 'sign',
+  components: {
+    SignInfo,
+    SignList
+  },
+  data () {
+    return {
+      // 控制 说明框 显示隐藏
+      isShow: false,
+      // 控制 活跃榜 显示隐藏
+      showList: false,
+      // 活跃榜选项卡 切换值
+      current: 0
+    }
+  },
+  methods: {
+    // 打开说明框
+    showInfo () {
+      this.isShow = true
+    },
+    // 打开活跃榜
+    showTop () {
+      this.showList = true
+    },
+    // 关闭说明框和活跃榜
+    close () {
+      this.isShow = false
+      this.showList = false
+    },
+    // 活跃榜选项卡切换
+    choose (val) {
+      this.current = val
+    }
+  }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.mask {
+  background-color: rgba($color: #000000, $alpha: 0.8);
+  z-index: 20000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.layui-layer {
+  position: fixed;
+  width: 300px;
+  height: 480px;
+  top: 50%;
+  left: 50%;
+  margin-top: -240px;
+  margin-left: -150px;
+  background-color: #fff;
+  z-index: 21000;
+  &.active {
+    animation-fill-mode: both;
+    animation-duration: 0.2s;
+    animation-name: bounceIn;
+  }
+
+  .layui-layer-title {
+    height: 42px;
+    line-height: 42px;
+    padding: 0 20px;
+    color: #333;
+    background-color: #f8f8f8;
+    .layui-icon-close {
+      cursor: pointer;
+    }
+  }
+
+  .layui-layer-content {
+    padding: 20px;
+  }
+  .layui-tab-content {
+    padding: 0 10px;
+  }
+  .layui-tab-item {
+    line-height: 45px;
+    li {
+      border-bottom: 1px double #dcdcdc;
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+    img {
+      width: 30px;
+      height: 30px;
+      border-radius: 2px;
+    }
+  }
+}
 </style>
