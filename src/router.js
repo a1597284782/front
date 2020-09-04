@@ -24,6 +24,7 @@ const Passwd = () => import('./components/user/common/Passwd.vue')
 const Accounts = () => import('./components/user/common/Accounts.vue')
 const MyPost = () => import('./components/user/common/MyPost.vue')
 const MyCollection = () => import('./components/user/common/MyCollection.vue')
+const NoFound = () => import('./views/NoFound.vue')
 
 Vue.use(Router)
 
@@ -147,6 +148,14 @@ const router = new Router({
           component: Others
         }
       ]
+    },
+    {
+      path: '/404',
+      component: NoFound
+    },
+    {
+      path: '*',
+      redirect: '/404'
     }
   ]
 })

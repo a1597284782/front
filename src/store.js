@@ -34,6 +34,7 @@ export default new Vuex.Store({
     // 设置登陆状态
     setIsLogin (state, value) {
       state.isLogin = value
+      console.log('setIsLogin -> value', value)
     }
   },
   actions: {}

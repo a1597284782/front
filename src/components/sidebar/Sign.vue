@@ -9,7 +9,7 @@
         活跃榜
         <span class="layui-badge-dot"></span>
       </a>
-      <span class="fly-signin-days">
+      <span class="fly-signin-days" v-show="isLogin">
         已连续签到
         <cite>{{count}}</cite>天
       </span>
@@ -25,7 +25,7 @@
 
       <!-- 已签到状态 -->
       <template v-else>
-        <button class="layui-btn layui-btn-disabled">今日已签到</button>
+        <button class="layui-btn layui-btn-disabled">{{msg}}</button>
         <span>
           获得了
           <cite>{{favs}}</cite>飞吻
@@ -61,8 +61,8 @@ export default {
       current: 0,
       // 控制签到按钮 是否可点击
       isSign: false,
-      // 是否已登录
-      isLogin: this.$store.state.isLogin
+      // 签到倒计时
+      msg: '今日已签到'
     }
   },
   mounted () {
@@ -73,13 +73,22 @@ export default {
     const nowDate = moment().format('YYYY-MM-DD')
     const lastDate = moment(lastSign).format('YYYY-MM-DD')
     const diff = moment(nowDate).diff(moment(lastDate), 'day')
+
     if (diff > 0 && isSign) {
       this.isSign = false
     } else {
       this.isSign = isSign
     }
+    // 签到倒计时
+    if (this.isSign) {
+      this.countDown()
+    }
   },
   computed: {
+    // 是否已登录
+    isLogin () {
+      return this.$store.state.isLogin
+    },
     // 获得的积分数
     favs () {
       const count = parseInt(this.count)
@@ -151,7 +160,26 @@ export default {
         user.lastSign = res.lastSign
         this.isSign = true
         this.$store.commit('setUserInfo', user)
+        this.countDown()
       })
+    },
+    // 签到倒计时
+    countDown () {
+      const newDate = moment().add(1, 'day').format('YYYY-MM-DD')
+      let seconds = moment(newDate + ' 00:00:00').diff(moment(), 'second')
+
+      const time = setInterval(() => {
+        seconds = moment(newDate + ' 00:00:00').diff(moment(), 'second')
+        const hour = Math.floor(seconds / 3600)
+        const min = Math.floor(seconds % 3600 / 60)
+        const second = seconds % 60
+        this.msg = `签到倒计时 ${hour}:${min < 10 ? '0' + min : min}:${second < 10 ? '0' + second : second}`
+      }, 1000)
+
+      if (seconds <= 0) {
+        clearInterval(time)
+        this.isSign = false
+      }
     }
   }
 }

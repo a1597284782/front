@@ -1,7 +1,7 @@
 <template>
   <div class="fly-header layui-bg-black">
     <div class="layui-container">
-      <a class="fly-logo" href="/">
+      <a class="fly-logo" href="javascript: void(0);">
         <img src="../assets/img/logo-2.png" alt="layui" />
       </a>
       <ul class="layui-nav fly-nav layui-hide-xs">
@@ -11,12 +11,12 @@
           </a>
         </li>
         <li class="layui-nav-item">
-          <a href="case/case.html">
+          <a href="javascript: void(0);">
             <i class="iconfont icon-iconmingxinganli"></i>案例
           </a>
         </li>
         <li class="layui-nav-item">
-          <a href="/" target="_blank">
+          <a href="javascript: void(0);">
             <i class="iconfont icon-ui"></i>框架
           </a>
         </li>
@@ -26,7 +26,7 @@
         <!-- 未登入的状态 -->
         <template v-if="!isShow">
           <li class="layui-nav-item">
-            <a class="iconfont icon-touxiang layui-hide-xs" href="javascript:;"></a>
+            <a class="iconfont icon-touxiang layui-hide-xs" href="javascript: void(0);"></a>
           </li>
           <li class="layui-nav-item">
             <router-link :to="{name: 'login'}">登入</router-link>
@@ -36,16 +36,14 @@
           </li>
           <li class="layui-nav-item layui-hide-xs">
             <a
-              href
-              onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})"
+              href="javascript: void(0);"
               title="QQ登入"
               class="iconfont icon-qq"
             ></a>
           </li>
           <li class="layui-nav-item layui-hide-xs">
             <a
-              href
-              onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})"
+              href="javascript: void(0);"
               title="微博登入"
               class="iconfont icon-weibo"
             ></a>
@@ -55,7 +53,7 @@
         <!-- 登入后的状态 -->
         <template v-else>
           <li class="layui-nav-item" @mouseover="show()" @mouseout="hide()">
-            <a class="fly-nav-avatar" href="javascript:;">
+            <a class="fly-nav-avatar" href="javascript: void(0);">
               <cite class="layui-hide-xs">{{userInfo.name}}</cite>
               <!-- <i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：layui 作者"></i> -->
               <i
@@ -108,7 +106,7 @@ export default {
           icon: 'layui-icon-notice'
         },
         {
-          to: '',
+          to: 'home',
           title: '我的主页',
           icon: 'layui-icon-home'
         }
@@ -149,7 +147,7 @@ export default {
         this.$store.commit('setToken', '')
         this.$store.commit('setUserInfo', '')
         this.$store.commit('setIsLogin', false)
-        this.$router.push('/')
+        this.$router.push({ name: 'index' }, () => {})
       }, () => {})
     }
   }
