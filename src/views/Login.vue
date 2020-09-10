@@ -4,7 +4,7 @@
     <div class="fly-panel fly-panel-user" pad20>
       <div class="layui-tab layui-tab-brief" lay-filter="user">
         <ul class="layui-tab-title">
-          <li class="layui-this">登入</li>
+          <li class="layui-this">登录</li>
           <li>
             <router-link :to="{ name: 'reg' }">注册</router-link>
           </li>
@@ -196,6 +196,7 @@ export default {
         // console.log('submit -> res', res)
         if (res.code === 200) {
           console.log('submit -> res', res.data)
+          res.data.username = this.username
           // 登陆成功后 保存 用户信息
           this.$store.commit('setUserInfo', res.data)
           // 设置登陆状态

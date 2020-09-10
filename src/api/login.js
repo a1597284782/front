@@ -1,4 +1,5 @@
 import axios from '@/utils/request'
+import qs from 'qs'
 
 /**
  * 获取验证码接口
@@ -42,4 +43,9 @@ const reg = regInfo => {
   })
 }
 
-export { getCode, forget, login, reg }
+// 重置密码接口
+const updatePassword = data => {
+  return axios.get('/login/reset-passwd?' + qs.stringify(data))
+}
+
+export { getCode, forget, login, reg, updatePassword }

@@ -90,6 +90,7 @@
 
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import { updateUserInfo } from '@/api/user'
 
 export default {
   name: 'myinfo',
@@ -111,6 +112,14 @@ export default {
       regmark: ''
     }
   },
+  mounted () {
+    const { username, name, location, gender, regmark } = this.$store.state.userInfo
+    this.username = username || ''
+    this.name = name || ''
+    this.location = location || ''
+    this.gender = gender || ''
+    this.regmark = regmark || ''
+  },
   methods: {
     // 提交按钮
     async submit () {
@@ -118,7 +127,27 @@ export default {
       if (!isValid) {
         return
       }
-      console.log('submit')
+      updateUserInfo({
+        username: this.username,
+        name: this.name,
+        location: this.location,
+        gender: this.gender,
+        regmark: this.regmark
+      }).then(res => {
+        if (res.code === 200) {
+          this.$store.commit('setUserInfo', {
+            ...this.$store.state.userInfo,
+            ...{
+              username: this.username,
+              name: this.name,
+              location: this.location,
+              gender: this.gender,
+              regmark: this.regmark
+            }
+          })
+          this.$alert(res.msg)
+        }
+      })
     }
   }
 }

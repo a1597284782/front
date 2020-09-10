@@ -4,6 +4,9 @@
 import axios from 'axios'
 // 封装 错误 处理
 import errorHandle from './errorHandle'
+// 白名单
+import PublicConfig from '@/config'
+import store from '@/store'
 
 const CancelToken = axios.CancelToken
 
@@ -40,9 +43,20 @@ class HttpRequest {
       config => {
         // 在发送请求之前做些什么
         // console.log('config:', config)
+        let isPublic = false
+        PublicConfig.publicPath.map((path) => {
+          isPublic = isPublic || path.test(config.url)
+        })
+
+        // 统一添加 token
+        const token = store.state.token
+        if (!isPublic && token) {
+          config.headers.Authorization = 'Bearer ' + token
+        }
+
         const key = config.url + '&' + config.method
         this.removePending(key, true)
-        config.cancelToken = new CancelToken((c) => {
+        config.cancelToken = new CancelToken(c => {
           this.pending[key] = c
         })
         return config

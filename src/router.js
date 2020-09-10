@@ -25,6 +25,8 @@ const Accounts = () => import('./components/user/common/Accounts.vue')
 const MyPost = () => import('./components/user/common/MyPost.vue')
 const MyCollection = () => import('./components/user/common/MyCollection.vue')
 const NoFound = () => import('./views/NoFound.vue')
+const Confirm = () => import('./views/Confirm.vue')
+const Reset = () => import('./views/Reset.vue')
 
 Vue.use(Router)
 
@@ -53,6 +55,16 @@ const router = new Router({
       path: '/login',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/confirm',
+      name: 'confirm',
+      component: Confirm
+    },
+    {
+      path: '/reset',
+      name: 'reset',
+      component: Reset
     },
     {
       path: '/reg',

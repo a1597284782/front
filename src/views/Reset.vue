@@ -6,7 +6,7 @@
           <li>
             <router-link :to="{name: 'login'}">登录</router-link>
           </li>
-          <li class="layui-this">注册</li>
+          <li class="layui-this">重置密码</li>
         </ul>
         <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
           <validation-observer ref="observer" v-slot="{ validate }">
@@ -14,52 +14,13 @@
               <div class="layui-form layui-form-pane">
                 <form method="post">
                   <div class="layui-form-item">
-                    <validation-provider name="username" rules="required|email" v-slot="{errors}">
-                      <div class="layui-row">
-                        <label for="L_email" class="layui-form-label">用户名</label>
-                        <div class="layui-input-inline">
-                          <input
-                            type="text"
-                            name="username"
-                            v-model="username"
-                            placeholder="请输入用户名"
-                            autocomplete="off"
-                            class="layui-input"
-                          />
-                        </div>
-                        <div class="layui-form-mid layui-word-aux">将会成为您唯一的登入名</div>
-                      </div>
-                      <div class="layui-row">
-                        <span style="color: #c00;">{{errors[0]}}</span>
-                      </div>
-                    </validation-provider>
-                  </div>
-                  <div class="layui-form-item">
-                    <label for="L_username" class="layui-form-label">昵称</label>
-                    <validation-provider name="name" rules="required|min:4|name" v-slot="{errors}">
-                      <div class="layui-input-inline">
-                        <input
-                          type="text"
-                          name="name"
-                          v-model="name"
-                          placeholder="请输入昵称"
-                          autocomplete="off"
-                          class="layui-input"
-                        />
-                      </div>
-                      <div class="layui-form-mid">
-                        <span style="color: #c00;">{{errors[0]}}</span>
-                      </div>
-                    </validation-provider>
-                  </div>
-                  <div class="layui-form-item">
                     <validation-provider
                       name="password"
                       rules="required|min:6|max:16|confirmed:confirmation"
                       v-slot="{errors}"
                     >
                       <div class="layui-row">
-                        <label for="L_pass" class="layui-form-label">密码</label>
+                        <label for="L_pass" class="layui-form-label">新密码</label>
                         <div class="layui-input-inline">
                           <input
                             type="password"
@@ -121,7 +82,7 @@
                     </validation-provider>
                   </div>
                   <div class="layui-form-item">
-                    <button class="layui-btn" type="button" @click="validate().then(submit)">立即注册</button>
+                    <button class="layui-btn" type="button" @click="validate().then(submit)">立即重置</button>
                   </div>
                   <div class="layui-form-item fly-form-app">
                     <span>或者直接使用社交账号快捷注册</span>
@@ -149,15 +110,16 @@
 </template>
 
 <script>
-import { getCode, reg } from '@/api/login'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import { getCode, updatePassword } from '@/api/login'
+// 创建随机且唯一的 UUID
+import { v4 as uuid } from 'uuid'
 
+let key = ''
 export default {
-  name: 'reg',
+  name: 'reset',
   data () {
     return {
-      username: '',
-      name: '',
       password: '',
       repassword: '',
       code: '',
@@ -169,6 +131,26 @@ export default {
     ValidationObserver
   },
   mounted () {
+    // 正则 拼接 url 获取 key 值
+    const queryStr = window.location.href.replace(/.*\?/, '').split('&')
+    queryStr.forEach(item => {
+      if (item.indexOf('key=') !== -1) {
+        key = item.slice(4)
+      }
+    })
+
+    // 创建随机且唯一的 UUID，并保存到 vuex 和 缓存中
+    let sid = ''
+    if (localStorage.getItem('sid')) {
+      sid = localStorage.getItem('sid')
+    } else {
+      sid = uuid()
+      localStorage.setItem('sid', sid)
+    }
+    // 更新 vuex 的 sid
+    this.$store.commit('setSid', sid)
+
+    // 获取验证码
     this._getCode()
   },
   methods: {
@@ -176,50 +158,37 @@ export default {
     _getCode () {
       const sid = this.$store.state.sid
       getCode(sid).then((res) => {
+        // console.log('_getCode -> res', res)
         if (res.code === 200) {
           this.svg = res.data
         }
       })
     },
-    // 注册按钮
+    // 提交按钮
     async submit () {
       const isValid = await this.$refs.observer.validate()
       if (!isValid) {
-        // ABORT!!
         return
       }
-      reg({
-        username: this.username,
-        password: this.password,
-        name: this.name,
-        code: this.code,
-        sid: this.$store.state.sid
-      }).then((res) => {
-        // console.log('submit -> res', res)
+      // console.log('submit')
+      updatePassword({
+        key: key,
+        password: this.password
+      }).then(res => {
         if (res.code === 200) {
-          this.username = ''
-          this.password = ''
-          this.repassword = ''
-          this.name = ''
-          this.code = ''
-          requestAnimationFrame(() => {
-            this.$refs.observer.reset()
-          })
-          // 跳转到登录界面，让用户登录
-          this.$alert('注册成功')
+          this.$alert(res.msg)
+          this.isSend = true
           setTimeout(() => {
-            this.$router.push('/login')
+            this.$router.push('/')
           }, 1000)
         } else {
-          // username -> '用户名已经注册'
-          // res.msg = { username: [], name: [], code: []}
-          this.$refs.observer.setErrors(res.msg)
+          this.$alert(res.msg)
         }
       })
     }
   }
 }
 </script>
+
 <style lang="scss" scoped>
-// 公用样式可以放在App.vue中
 </style>

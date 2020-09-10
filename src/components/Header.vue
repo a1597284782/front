@@ -29,7 +29,7 @@
             <a class="iconfont icon-touxiang layui-hide-xs" href="javascript: void(0);"></a>
           </li>
           <li class="layui-nav-item">
-            <router-link :to="{name: 'login'}">登入</router-link>
+            <router-link :to="{name: 'login'}">登录</router-link>
           </li>
           <li class="layui-nav-item">
             <router-link :to="{name: 'reg'}">注册</router-link>
