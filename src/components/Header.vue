@@ -60,7 +60,7 @@
                 class="layui-badge fly-badge-vip layui-hide-xs"
                 v-show="userInfo.isVip !== '0'"
               >VIP{{userInfo.isVip}}</i>
-              <img :src="'http://localhost:3000' + userInfo.pic" />
+              <img :src="userInfo.pic" />
             </a>
             <dl
               class="layui-nav-child layui-anim layui-anim-upbit"

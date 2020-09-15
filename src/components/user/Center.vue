@@ -1,14 +1,20 @@
 <template>
   <!-- 用户中心 -->
   <div class="panel main pd20">
-    <div class="msg">Hi, Admin, 你已经是我们的证书会议</div>
+    <div class="msg">Hi, Admin, 你已经是我们的正式会员</div>
     <div class="layui-row layui-col-space20">
       <div class="layui-col-md6">
         <div class="panel border">
           <div class="title">我的会员信息</div>
           <div class="content">
-            <p>积分经验值：<cite class="color">60</cite></p>
-            <p>您当前为：<cite class="color">非VIP</cite></p>
+            <p>
+              积分经验值：
+              <cite class="color">60</cite>
+            </p>
+            <p>
+              您当前为：
+              <cite class="color">非VIP</cite>
+            </p>
           </div>
         </div>
       </div>
@@ -184,6 +190,6 @@ li {
 }
 
 .color {
-  color: #FF5722;
+  color: #ff5722;
 }
 </style>

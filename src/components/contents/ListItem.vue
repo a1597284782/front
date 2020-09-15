@@ -4,7 +4,7 @@
       <li v-for="(item, index) in items" :key="'listitem' + index">
         <a href="user/home.html" class="fly-avatar">
           <img
-            :src="'http://localhost:3000' + item.uid.pic"
+            :src="item.uid.pic"
             alt="贤心"
           />
         </a>

@@ -25,9 +25,15 @@ const getTop = () => {
   return axios.get('/public/topWeek')
 }
 
+// 上传图片接口
+const uploadImg = (formData) => {
+  return axios.post('/content/upload', formData)
+}
+
 export {
   getList,
   getTips,
   getLinks,
-  getTop
+  getTop,
+  uploadImg
 }
