@@ -27,6 +27,7 @@ const MyCollection = () => import('./components/user/common/MyCollection.vue')
 const NoFound = () => import('./views/NoFound.vue')
 const Confirm = () => import('./views/Confirm.vue')
 const Reset = () => import('./views/Reset.vue')
+const Add = () => import('./components/contents/Add.vue')
 
 Vue.use(Router)
 
@@ -89,6 +90,11 @@ const router = new Router({
           next('/login')
         }
       }
+    },
+    {
+      path: '/add',
+      name: 'add',
+      component: Add
     },
     {
       path: '/user/:uid',

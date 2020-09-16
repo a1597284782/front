@@ -30,8 +30,7 @@ export default {
   name: 'pic-upload',
   data () {
     return {
-      pic: (this.$store.state.userInfo && this.$store.state.userInfo.pic) ? this.$store.state.userInfo.pic : '/img/2020.jpg',
-      formData: ''
+      pic: (this.$store.state.userInfo && this.$store.state.userInfo.pic) ? this.$store.state.userInfo.pic : '/img/2020.jpg'
     }
   },
   methods: {
@@ -41,17 +40,16 @@ export default {
       if (file.length > 0) {
         formData.append('file', file[0])
         console.log('upload -> file[0]', file[0])
-        this.formData = formData
       }
       // 上传图片 -> uploadImg
       uploadImg(formData).then(res => {
-        const baseUrl = process.env.NODE_ENV === 'production' ? config.baseUrl.pro : config.baseUrl.dev
         if (res.code === 200) {
+          const baseUrl = process.env.NODE_ENV === 'production' ? config.baseUrl.pro : config.baseUrl.dev
           this.pic = baseUrl + res.data
           // 再更新用户基本资料 -> updateUserInfo
           updateUserInfo({ pic: this.pic }).then(res => {
             if (res.code === 200) {
-            // 修改全局的 store 内的用户基础信息
+              // 修改全局的 store 内的用户基础信息
               const user = this.$store.state.userInfo
               user.pic = this.pic
               this.$store.commit('setUserInfo', user)

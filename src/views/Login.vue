@@ -155,8 +155,6 @@ export default {
     }
   },
   mounted () {
-    window.vue = this
-
     // 创建随机且唯一的 UUID，并保存到 vuex 和 缓存中
     let sid = ''
     if (localStorage.getItem('sid')) {
