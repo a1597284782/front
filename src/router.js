@@ -94,6 +94,7 @@ const router = new Router({
     {
       path: '/add',
       name: 'add',
+      meta: { requiresAuth: true },
       component: Add
     },
     {
@@ -183,7 +184,7 @@ router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
 
   const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-  if (token !== '' && token !== null) {
+  if (token !== '' && token != null) {
     const payload = jwt.decode(token)
     console.log('payload', payload)
     // 判断 token 是否过期， 方法二

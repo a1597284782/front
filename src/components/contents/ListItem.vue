@@ -3,10 +3,7 @@
     <ul class="fly-list">
       <li v-for="(item, index) in items" :key="'listitem' + index">
         <a href="user/home.html" class="fly-avatar">
-          <img
-            :src="item.uid.pic"
-            alt="贤心"
-          />
+          <img :src="item.uid.pic" alt="贤心" />
         </a>
         <h2>
           <a class="layui-badge">{{ item.catalog }}</a>
@@ -33,7 +30,7 @@
             {{ item.answer }}
           </span>
         </div>
-        <div class="fly-list-badge" v-show="item.tags.length > 0">
+        <div class="fly-list-badge" v-show="item.tags.length > 0 && item.tags[0].name !== ''">
           <span
             class="layui-badge"
             v-for="(tag, index) in item.tags"
@@ -54,12 +51,14 @@
 
 <script>
 // 是一个一致性、模块化、高性能的 JavaScript 实用工具库
-import _ from 'lodash'
-
+// import _ from 'lodash'
 // 时间格式化库
-import moment from 'moment'
+import moment from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 // 时间格式化库 中文显示
-import 'moment/locale/zh-cn'
+import 'dayjs/locale/zh-cn'
+
+moment.extend(relativeTime)
 
 export default {
   name: 'listitem',
@@ -79,7 +78,7 @@ export default {
   },
   computed: {
     items () {
-      _.map(this.lists, item => {
+      this.lists.map((item) => {
         switch (item.catalog) {
           case 'ask':
             item.catalog = '提问'
@@ -118,7 +117,7 @@ export default {
         return moment(data).format('YYYY-MM-DD')
       } else {
         // 小于 7 天，显示 xx 小时或 xx 天前
-        return moment(data).from(moment())
+        return moment(data).locale('zh-cn').from(moment())
       }
     }
   }

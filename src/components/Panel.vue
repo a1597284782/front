@@ -30,13 +30,13 @@
         <span class="fly-search">
           <i class="layui-icon"></i>
         </span>
-        <a href="jie/add.html" class="layui-btn">发表新帖</a>
+        <router-link class="layui-btn" :to="{'name': 'add'}">发表新帖</router-link>
       </div>
       <div
         class="layui-hide-sm layui-show-xs-block"
         style="margin-top: -10px; padding-bottom: 10px; text-align: center;"
       >
-        <a href="jie/add.html" class="layui-btn">发表新帖</a>
+        <router-link class="layui-btn" :to="{'name': 'add'}">发表新帖</router-link>
       </div>
     </div>
   </div>

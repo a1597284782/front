@@ -1,6 +1,7 @@
 <template>
+  <!-- 插入图片 -->
   <transition name="fade">
-    <div class="layui-layer-page layui-layer-border edit-content" v-show="isShow" ref="wrapper">
+    <div class="layui-layer-page layui-layer-border edit-content" v-show="isShow">
       <div class="layui-layer-title">插入图片</div>
       <div class="layui-layer-content">
         <ul class="layui-form layui-form-pane">
@@ -47,49 +48,19 @@ import config from '@/config'
 
 export default {
   name: 'Imgupload',
-  props: ['isShow', 'ctrl'],
+  props: ['isShow'],
   data () {
     return {
       // 图片路径
-      pic: '',
-      formData: ''
+      pic: ''
     }
   },
-  mounted () {
-    // 点击 表情框以外的区域
-    this.$nextTick(() => {
-      document.querySelector('body').addEventListener('click', this.handleBodyClick)
-    })
-  },
   methods: {
-    // 点击 表情
-    handleFaceClick (item) {
-      this.$emit('addEvent', item)
-    },
-    // 触发隐藏本组件的关闭事件，改变 isShow 状态
-    handleBodyClick (e) {
-      e.stopPropagation()
-      console.log('handleBodyClick -> this.ctrl', this.ctrl)
-
-      if (typeof this.ctrl === 'undefined') {
-        return
-      }
-
-      // 判断是否点击 表情之外的区域
-      // contains 方法可以判断 dom 结构的包含关系
-      if (!(this.ctrl.contains(e.target) || this.$refs.wrapper.contains(e.target))) {
-        this.$emit('closeEvent')
-        // 清空输入框
-        this.pic = ''
-        this.formData = ''
-      }
-    },
     // 点击叉号
     close () {
       this.$emit('closeEvent')
       // 清空输入框
       this.pic = ''
-      this.formData = ''
     },
     // 上传图片
     upload (e) {
@@ -122,9 +93,6 @@ export default {
         this.$emit('closeEvent')
       }, 0)
     }
-  },
-  beforeDestroy () {
-    document.querySelector('body').removeEventListener('click', this.handleBodyClick)
   }
 }
 </script>

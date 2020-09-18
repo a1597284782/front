@@ -6,7 +6,7 @@ import qs from 'qs'
  * 获取文章列表
  * @param {Object} options 接口参数对象
  */
-const getList = (options) => {
+const getList = options => {
   return axios.get('/public/list?' + qs.stringify(options))
 }
 
@@ -26,14 +26,13 @@ const getTop = () => {
 }
 
 // 上传图片接口
-const uploadImg = (formData) => {
+const uploadImg = formData => {
   return axios.post('/content/upload', formData)
 }
 
-export {
-  getList,
-  getTips,
-  getLinks,
-  getTop,
-  uploadImg
+// 发帖接口
+const addPost = data => {
+  return axios.post('/content/add', { ...data })
 }
+
+export { getList, getTips, getLinks, getTop, uploadImg, addPost }
