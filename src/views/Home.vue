@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Panel from '../components/Panel'
+import Panel from '@/components/Panel'
 
 export default {
   name: 'home',

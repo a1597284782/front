@@ -206,8 +206,9 @@ export default {
           this.password = ''
           this.code = ''
 
+          // 清空错误提示
           requestAnimationFrame(() => {
-            this.$refs.observer.reset()
+            this.$refs.observer && this.$refs.observer.reset()
           })
           this.$router.push({ name: 'index' })
         } else if (res.code === 401) {

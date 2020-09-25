@@ -47,6 +47,9 @@ export default {
   .pd#{$i} {
     padding: $i * 10 + px !important;
   }
+  .pt#{$i} {
+    padding-top: $i * 10 + px !important;
+  }
   .pl#{$i} {
     padding-left: $i * 10 + px !important;
   }
@@ -78,5 +81,19 @@ export default {
 
 .text-right {
   text-align: right;
+}
+.d-flex {
+  display: flex;
+  align-items: center;
+
+  &.flex-start {
+    justify-content: flex-start;
+  }
+  &.flex-center {
+    justify-content: center;
+  }
+  &.flex-end {
+    justify-content: flex-end;
+  }
 }
 </style>

@@ -28,6 +28,7 @@ const NoFound = () => import('./views/NoFound.vue')
 const Confirm = () => import('./views/Confirm.vue')
 const Reset = () => import('./views/Reset.vue')
 const Add = () => import('./components/contents/Add.vue')
+const Detail = () => import('./components/contents/Detail.vue')
 
 Vue.use(Router)
 
@@ -96,6 +97,12 @@ const router = new Router({
       name: 'add',
       meta: { requiresAuth: true },
       component: Add
+    },
+    {
+      path: '/detail/:tid',
+      name: 'detail',
+      props: true,
+      component: Detail
     },
     {
       path: '/user/:uid',

@@ -35,4 +35,9 @@ const addPost = data => {
   return axios.post('/content/add', { ...data })
 }
 
-export { getList, getTips, getLinks, getTop, uploadImg, addPost }
+// 获取文章详情
+const getDetail = tid => {
+  return axios.get('/public/content/detail?tid=' + tid)
+}
+
+export { getList, getTips, getLinks, getTop, uploadImg, addPost, getDetail }

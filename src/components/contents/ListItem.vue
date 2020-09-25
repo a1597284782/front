@@ -53,12 +53,12 @@
 // 是一个一致性、模块化、高性能的 JavaScript 实用工具库
 // import _ from 'lodash'
 // 时间格式化库
-import moment from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
+// import moment from 'dayjs'
+// import relativeTime from 'dayjs/plugin/relativeTime'
 // 时间格式化库 中文显示
-import 'dayjs/locale/zh-cn'
+// import 'dayjs/locale/zh-cn'
 
-moment.extend(relativeTime)
+// moment.extend(relativeTime)
 
 export default {
   name: 'listitem',
@@ -108,19 +108,19 @@ export default {
     more () {
       this.$emit('nextpage')
     }
-  },
-  filters: {
-    // 过滤时间
-    moment (data) {
-      // 超过 7 天显示日期
-      if (moment(data).isBefore(moment().subtract(7, 'days'))) {
-        return moment(data).format('YYYY-MM-DD')
-      } else {
-        // 小于 7 天，显示 xx 小时或 xx 天前
-        return moment(data).locale('zh-cn').from(moment())
-      }
-    }
   }
+  // filters: {
+  //   // 过滤时间
+  //   moment (date) {
+  //     // 超过 7 天显示日期
+  //     if (moment(date).isBefore(moment().subtract(7, 'days'))) {
+  //       return moment(date).format('YYYY-MM-DD')
+  //     } else {
+  //       // 小于 7 天，显示 xx 小时或 xx 天前
+  //       return moment(date).locale('zh-cn').from(moment())
+  //     }
+  //   }
+  // }
 }
 </script>
 

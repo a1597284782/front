@@ -1,14 +1,12 @@
 <template>
   <div class="fly-header layui-bg-black">
     <div class="layui-container">
-      <a class="fly-logo" href="javascript: void(0);">
-        <img src="../assets/img/logo-2.png" alt="layui" />
+      <a class="fly-logo hidden" href="javascript: void(0);">
+        <img src="../assets/img/logo-3.png" alt="layui" />
       </a>
       <ul class="layui-nav fly-nav layui-hide-xs">
         <li class="layui-nav-item layui-this">
-          <a href="/">
-            <i class="iconfont icon-jiaoliu"></i>交流
-          </a>
+          <a href="/"> <i class="iconfont icon-jiaoliu"></i>交流 </a>
         </li>
         <li class="layui-nav-item">
           <a href="javascript: void(0);">
@@ -26,13 +24,16 @@
         <!-- 未登入的状态 -->
         <template v-if="!isShow">
           <li class="layui-nav-item">
-            <a class="iconfont icon-touxiang layui-hide-xs" href="javascript: void(0);"></a>
+            <a
+              class="iconfont icon-touxiang layui-hide-xs"
+              href="javascript: void(0);"
+            ></a>
           </li>
           <li class="layui-nav-item">
-            <router-link :to="{name: 'login'}">登录</router-link>
+            <router-link :to="{ name: 'login' }">登录</router-link>
           </li>
           <li class="layui-nav-item">
-            <router-link :to="{name: 'reg'}">注册</router-link>
+            <router-link :to="{ name: 'reg' }">注册</router-link>
           </li>
           <li class="layui-nav-item layui-hide-xs">
             <a
@@ -54,28 +55,34 @@
         <template v-else>
           <li class="layui-nav-item" @mouseover="show()" @mouseout="hide()">
             <a class="fly-nav-avatar" href="javascript: void(0);">
-              <cite class="layui-hide-xs">{{userInfo.name}}</cite>
+              <cite class="layui-hide-xs">{{ userInfo.name }}</cite>
               <!-- <i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：layui 作者"></i> -->
               <i
                 class="layui-badge fly-badge-vip layui-hide-xs"
                 v-show="userInfo.isVip !== '0'"
-              >VIP{{userInfo.isVip}}</i>
+                >VIP{{ userInfo.isVip }}</i
+              >
               <img :src="userInfo.pic" />
             </a>
             <dl
               class="layui-nav-child layui-anim layui-anim-upbit"
-              :class="{'layui-show': isHover}"
+              :class="{ 'layui-show': isHover }"
             >
               <dd v-for="(item, index) in lists" :key="'lists' + index">
-                <router-link :to="{name: item.to}">
+                <router-link :to="{ name: item.to }">
                   <i class="layui-icon" :class="item.icon"></i>
-                  {{item.title}}
+                  {{ item.title }}
                 </router-link>
               </dd>
 
-              <hr style="margin: 5px 0;" />
+              <hr style="margin: 5px 0" />
               <dd>
-                <a href="javascript: void(0);" style="text-align: center;" @click="logout">退出</a>
+                <a
+                  href="javascript: void(0);"
+                  style="text-align: center"
+                  @click="logout"
+                  >退出</a
+                >
               </dd>
             </dl>
           </li>
@@ -147,8 +154,8 @@ export default {
         this.$store.commit('setToken', '')
         this.$store.commit('setUserInfo', '')
         this.$store.commit('setIsLogin', false)
-        this.$router.push({ name: 'index' }, () => {})
-      }, () => {})
+        this.$router.push({ name: 'index' }, () => { })
+      }, () => { })
     }
   }
 }
@@ -159,5 +166,9 @@ export default {
   position: absolute;
   left: -15px;
   top: -10px;
+}
+.hidden {
+  height: 60px;
+  overflow: hidden;
 }
 </style>
