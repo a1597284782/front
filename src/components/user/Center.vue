@@ -9,11 +9,13 @@
           <div class="content">
             <p>
               积分经验值：
-              <cite class="color">60</cite>
+              <cite class="color">{{ userInfo.favs }}</cite>
             </p>
             <p>
               您当前为：
-              <cite class="color">非VIP</cite>
+              <cite class="color">{{
+                userInfo.isVip === '0' ? '非VIP' : 'VIP' + userInfo.isVip
+              }}</cite>
             </p>
           </div>
         </div>
@@ -26,10 +28,14 @@
           <div class="title">快捷方式</div>
           <div class="content" style="height: auto">
             <ul class="layui-row layui-col-space10">
-              <li class="layui-col-sm3 layui-col-xs4" v-for="(item, index) in lists" :key="index">
-                <router-link :to="{name: item.to}">
+              <li
+                class="layui-col-sm3 layui-col-xs4"
+                v-for="(item, index) in lists"
+                :key="index"
+              >
+                <router-link :to="{ name: item.to }">
                   <div class="layui-icon shortcut" :class="item.icon"></div>
-                  <span>{{item.title}}</span>
+                  <span>{{ item.title }}</span>
                 </router-link>
               </li>
             </ul>
@@ -41,12 +47,18 @@
 </template>
 
 <script>
+import { getInfo } from '@/api/user'
 import Sign from '@/components/sidebar/Sign'
 
 export default {
   name: 'user-center',
   components: {
     Sign
+  },
+  computed: {
+    userInfo () {
+      return this.$store.state.userInfo
+    }
   },
   data () {
     return {
@@ -112,6 +124,18 @@ export default {
           icon: 'layui-icon-user'
         }
       ]
+    }
+  },
+  mounted () {
+    this.getUserInfo()
+  },
+  methods: {
+    getUserInfo () {
+      getInfo({ uid: this.userInfo._id }).then(res => {
+        if (res.code === 200) {
+          this.$store.commit('setUserInfo', res.data)
+        }
+      })
     }
   }
 }

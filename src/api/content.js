@@ -1,6 +1,7 @@
 import axios from '@/utils/request'
 // 具有一些附加安全性的querystring解析和字符串化库
 import qs from 'qs'
+import store from '@/store'
 
 /**
  * 获取文章列表
@@ -37,7 +38,29 @@ const addPost = data => {
 
 // 获取文章详情
 const getDetail = tid => {
-  return axios.get('/public/content/detail?tid=' + tid)
+  const token = store.state.token
+  let headers = {}
+  if (token !== '') {
+    headers = {
+      Authorization: 'Bearer ' + store.state.token
+    }
+  }
+  console.log('headers', headers)
+  return axios.get('/public/content/detail?tid=' + tid, { headers })
 }
 
-export { getList, getTips, getLinks, getTop, uploadImg, addPost, getDetail }
+// 编辑文章
+const updatePost = data => {
+  return axios.post('/content/update', { ...data })
+}
+
+export {
+  getList,
+  getTips,
+  getLinks,
+  getTop,
+  uploadImg,
+  addPost,
+  getDetail,
+  updatePost
+}

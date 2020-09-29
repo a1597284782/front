@@ -28,6 +28,7 @@ const NoFound = () => import('./views/NoFound.vue')
 const Confirm = () => import('./views/Confirm.vue')
 const Reset = () => import('./views/Reset.vue')
 const Add = () => import('./components/contents/Add.vue')
+const Edit = () => import('./components/contents/Edit.vue')
 const Detail = () => import('./components/contents/Detail.vue')
 
 Vue.use(Router)
@@ -97,6 +98,36 @@ const router = new Router({
       name: 'add',
       meta: { requiresAuth: true },
       component: Add
+    },
+    {
+      path: '/edit/:tid',
+      props: true,
+      name: 'edit',
+      meta: { requiresAuth: true },
+      component: Edit,
+      beforeEnter: (to, from, next) => {
+        console.log('from', from)
+        if (
+          ['detail', 'mypost'].indexOf(from.name) !== -1 &&
+          to.params.page &&
+          to.params.page.isEnd === '0'
+        ) {
+          next()
+        } else {
+          // 用户刷新的情况
+          const editData = localStorage.getItem('editData')
+          if (editData && editData !== '') {
+            const editObj = JSON.parse(editData)
+            if (editObj.isEnd === '0') {
+              next()
+            } else {
+              next('/')
+            }
+          } else {
+            next('/')
+          }
+        }
+      }
     },
     {
       path: '/detail/:tid',
@@ -177,6 +208,7 @@ const router = new Router({
     },
     {
       path: '/404',
+      name: '404',
       component: NoFound
     },
     {

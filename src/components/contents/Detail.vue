@@ -70,7 +70,7 @@
               <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="0" style="background-color:#ccc;">取消加精</span>
             </div>-->
             <span class="fly-list-nums">
-              <a href="#comment">
+              <a>
                 <i class="iconfont" title="回答">&#xe60c;</i>
                 {{ page.answer }}
               </a>
@@ -79,13 +79,19 @@
             </span>
           </div>
 
-          <!-- 收藏 -->
+          <!-- 用户、标题 -->
           <div class="detail-about">
-            <a class="fly-avatar" href>
+            <router-link
+              class="fly-avatar"
+              :to="{ name: 'home', params: { uid: page.uid ? page.uid._id : '' } }"
+            >
               <img :src="page.uid ? page.uid.pic : ''" />
-            </a>
+            </router-link>
             <div class="fly-detail-user">
-              <a href class="fly-link">
+              <router-link
+                :to="{ name: 'home', params: { uid: page.uid ? page.uid._id : '' } }"
+                class="fly-link"
+              >
                 <cite>{{ page.uid ? page.uid.name : '' }}</cite>
                 <!-- <i class="iconfont icon-renzheng" title="认证信息"></i> -->
                 <i
@@ -95,7 +101,7 @@
                   "
                   >VIP{{ page.uid.isVip }}</i
                 >
-              </a>
+              </router-link>
               <span>{{ page.created | moment }}</span>
             </div>
             <div class="detail-hits">
@@ -106,10 +112,20 @@
           </div>
 
           <div class="layui-btn-container fly-detail-admin pt1">
-            <a href class="layui-btn layui-btn-sm jie-admin">编辑</a>
-            <a href class="layui-btn layui-btn-sm jie-admin jie-admin-collect"
-              >收藏</a
+            <router-link
+              :to="{ name: 'edit', params: { tid, page } }"
+              class="layui-btn layui-btn-sm jie-admin"
+              v-show="page.isEnd === '0'"
+              >编辑
+            </router-link>
+            <a
+              href
+              class="layui-btn layui-btn-sm jie-admin jie-admin-collect"
+              :class="{ 'layui-btn-primary': page.isFav }"
+              @click.prevent="setCollect()"
             >
+              {{ page.isFav ? '取消收藏' : '收藏' }}
+            </a>
           </div>
 
           <div class="detail-body photos" v-html="content"></div>
@@ -131,11 +147,16 @@
               :key="'comments' + item._id"
             >
               <div class="detail-about detail-about-reply">
-                <a class="fly-avatar" href>
+                <router-link
+                  class="fly-avatar"
+                  :to="{ name: 'home', params: { uid: item.cuid._id } }"
+                >
                   <img :src="item.cuid ? item.cuid.pic : ''" />
-                </a>
+                </router-link>
                 <div class="fly-detail-user">
-                  <a href class="fly-link">
+                  <router-link
+                    :to="{ name: 'home', params: { uid: item.cuid._id } }"
+                  >
                     <cite>{{ item.cuid ? item.cuid.name : '' }}</cite>
                     <!-- <i class="iconfont icon-renzheng" title="认证信息：XXX"></i> -->
                     <i
@@ -147,7 +168,7 @@
                       "
                       >VIP{{ item.cuid.isVip }}</i
                     >
-                  </a>
+                  </router-link>
 
                   <span v-if="index === 0">(楼主)</span>
                   <!--
@@ -176,11 +197,12 @@
                   class="jieda-zan"
                   :class="{ zanok: item.handed === '1' }"
                   type="zan"
+                  @click="hands(item)"
                 >
                   <i class="iconfont icon-zan"></i>
                   <em>{{ item.hands }}</em>
                 </span>
-                <span type="reply">
+                <span type="reply" @click="reply(item)">
                   <i class="iconfont icon-svgmoban53"></i>
                   回复
                 </span>
@@ -207,6 +229,7 @@
 
           <!-- 分页 -->
           <imooc-page
+            v-show="comments.length > 0 && total !== 0"
             :showType="'icon'"
             :hasTotal="true"
             :hasSelect="true"
@@ -287,7 +310,8 @@
 
 <script>
 import { getDetail } from '@/api/content'
-import { getComents, addComment, updateComment } from '@/api/comments'
+import { addCollect } from '@/api/user'
+import { getComents, addComment, updateComment, setCommentBest, setHands } from '@/api/comments'
 import HotList from '@/components/sidebar/HotList'
 import Ads from '@/components/sidebar/Ads'
 import Links from '@/components/sidebar/Links'
@@ -339,6 +363,12 @@ export default {
     // window.vue = scrollToElem
     this.getPostDetail()
     this.getCommentsList()
+  },
+  watch: {
+    tid (newval, oldval) {
+      this.getPostDetail()
+      this.getCommentsList()
+    }
   },
   computed: {
     // 转义 富文本内容
@@ -440,7 +470,7 @@ export default {
           if (res.code === 200) {
             const temp = this.editInfo.item
             temp.content = this.editInfo.content
-            this.$pop('', '更新评论成功')
+            this.$pop('', res.msg)
             // 清空输入框
             this.code = ''
             this.editInfo.content = ''
@@ -503,7 +533,72 @@ export default {
       this.$confirm('确定采纳为最佳答案吗？', () => {
         // 确定
         console.log('setBest -> item', item._id)
+        setCommentBest({
+          cid: item._id,
+          tid: this.tid
+        }).then(res => {
+          if (res.code === 200) {
+            this.$pop('', res.msg)
+            item.isBest = '1'
+            this.page.isEnd = '1'
+          }
+        })
       }, () => { })
+    },
+
+    // 点赞
+    hands (item) {
+      setHands({ cid: item._id }).then(res => {
+        console.log('hands -> res', res)
+        if (res.code === 200) {
+          this.$pop('', res.msg)
+          item.handed = '1'
+          item.hands += 1
+        } else {
+          this.$pop('shake', res.msg)
+        }
+      })
+    },
+    // 回复
+    reply (item) {
+      // 插入 @ 符号 + name 到 content
+      const reg = /^@[\S]+/g
+      if (this.editInfo.content) {
+        if (reg.test(this.editInfo.content)) {
+          this.editInfo.content = this.editInfo.content.replace(reg, '@' + item.cuid.name + ' ')
+        } else {
+          this.editInfo.content = `@${item.cuid.name} ${this.editInfo.content}`
+        }
+      } else {
+        // 评论为空时
+        this.editInfo.content = '@' + item.cuid.name + ' '
+      }
+
+      // 动态滚动
+      scrollToElem('.layui-input-block', 500, -65)
+      document.querySelector('#edit').focus()
+    },
+    // 设置收藏
+    setCollect () {
+      const isLogin = this.$store.state.isLogin
+      if (isLogin) {
+        const collect = {
+          tid: this.tid,
+          title: this.page.title,
+          isFav: this.page.isFav ? 1 : 0
+        }
+
+        addCollect(collect).then(res => {
+          if (res.code === 200) {
+            this.page.isFav = !this.page.isFav
+            this.$pop('', this.page.isFav ? '设置收藏成功' : '取消收藏成功')
+          } else {
+            this.$pop('', res.msg)
+          }
+        })
+      } else {
+        this.$pop('shak', '请先登录')
+      }
     }
 
   }

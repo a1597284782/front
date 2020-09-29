@@ -21,4 +21,51 @@ const changePasswd = data => {
   return axios.post('/user/change-password', data)
 }
 
-export { userSign, updateUserInfo, updateUsername, changePasswd }
+// 设置收藏
+const addCollect = data => {
+  return axios.get('/user/set-collect?' + qs.stringify(data))
+}
+
+// 获取收藏列表
+const getCollect = data => {
+  return axios.get('/user/collect?' + qs.stringify(data))
+}
+
+// 用户发帖记录
+const getPostListByUid = data => {
+  return axios.get('/user/post?' + qs.stringify(data))
+}
+
+// 删除指定的文章
+const deletePostByUid = data => {
+  return axios.get('/user/delete-post?' + qs.stringify(data))
+}
+
+// 获取用户基本信息
+const getInfo = data => {
+  return axios.get('/public/info?' + qs.stringify(data))
+}
+
+// 获取用户最近评论
+const getCommentList = data => {
+  return axios.get('/public/latest-comment?' + qs.stringify(data))
+}
+
+// 获取用户最近发帖
+const getPostListPublic = data => {
+  return axios.get('/public/latest-post?' + qs.stringify(data))
+}
+
+export {
+  userSign,
+  updateUserInfo,
+  updateUsername,
+  changePasswd,
+  addCollect,
+  getCollect,
+  getPostListByUid,
+  deletePostByUid,
+  getInfo,
+  getCommentList,
+  getPostListPublic
+}

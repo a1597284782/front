@@ -21,6 +21,10 @@ export default {
 <style lang="scss">
 @import url('./assets/css/global.css');
 @import url('./assets/css/layui-layer/layer.css');
+
+#app {
+  overflow: hidden;
+}
 // 公共样式
 .svg {
   position: relative;

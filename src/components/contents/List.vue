@@ -98,7 +98,7 @@ export default {
         limit: this.limit,
         sort: this.sort,
         tag: this.tag,
-        status: this.status
+        isEnd: this.status
       }
       getList(options).then(res => {
         // console.log('_getList -> res', res)

@@ -17,18 +17,80 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>收藏的标题</td>
-          <td class="text-right">2020-08-31</td>
+        <tr v-for="item in list" :key="'mycollection' + item._id">
+          <td>
+            <router-link
+              class="link"
+              :to="{ name: 'detail', params: { tid: item.tid } }"
+              >{{ item.title }}
+            </router-link>
+          </td>
+          <td>{{ item.created | moment }}</td>
         </tr>
       </tbody>
     </table>
+
+    <imooc-page
+      v-show="total > 1"
+      :total="total"
+      :current="current"
+      :align="'left'"
+      :hasTotal="true"
+      :hasSelect="true"
+      @changeCurrent="handleChange"
+      @changeLimit="handleLimit"
+    ></imooc-page>
   </div>
 </template>
 
 <script>
+import { getCollect } from '@/api/user'
+import Pagination from '@/components/modules/pagination/Index'
+
 export default {
-  name: 'my-collection'
+  name: 'my-collection',
+  components: {
+    'imooc-page': Pagination
+  },
+  data () {
+    return {
+      // 信息
+      list: [],
+      // 每页多少条
+      limit: 10,
+      // 总条数
+      total: 0,
+      // 当前页数
+      current: 0
+    }
+  },
+  mounted () {
+    this.getCollectList()
+  },
+  methods: {
+    // 获取列表
+    getCollectList  () {
+      getCollect({
+        page: this.current,
+        limit: this.limit
+      }).then(res => {
+        if (res.code === 200) {
+          this.list = res.data
+          this.total = res.total
+        }
+      })
+    },
+    // 页码发生变化
+    handleChange (val) {
+      this.current = val
+      this.getCollectList()
+    },
+    // 条数发送变化
+    handleLimit (val) {
+      this.limit = val
+      this.getCollectList()
+    }
+  }
 }
 </script>
 

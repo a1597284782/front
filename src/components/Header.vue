@@ -54,7 +54,7 @@
         <!-- 登入后的状态 -->
         <template v-else>
           <li class="layui-nav-item" @mouseover="show()" @mouseout="hide()">
-            <a class="fly-nav-avatar" href="javascript: void(0);">
+            <router-link class="fly-nav-avatar" :to="{ name: 'center' }">
               <cite class="layui-hide-xs">{{ userInfo.name }}</cite>
               <!-- <i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：layui 作者"></i> -->
               <i
@@ -63,15 +63,21 @@
                 >VIP{{ userInfo.isVip }}</i
               >
               <img :src="userInfo.pic" />
-            </a>
+            </router-link>
             <dl
               class="layui-nav-child layui-anim layui-anim-upbit"
               :class="{ 'layui-show': isHover }"
             >
               <dd v-for="(item, index) in lists" :key="'lists' + index">
-                <router-link :to="{ name: item.to }">
+                <router-link :to="item.to">
                   <i class="layui-icon" :class="item.icon"></i>
                   {{ item.title }}
+                </router-link>
+              </dd>
+              <dd>
+                <router-link :to="{ name: 'home', params: { uid: userInfo._id } }">
+                  <i class="layui-icon layui-icon-home"></i>
+                 我的主页
                 </router-link>
               </dd>
 
@@ -103,19 +109,14 @@ export default {
       // 菜单数据
       lists: [
         {
-          to: 'info',
+          to: { name: 'info' },
           title: '基本设置',
           icon: 'layui-icon-set'
         },
         {
-          to: 'msg',
+          to: { name: 'msg' },
           title: '我的消息',
           icon: 'layui-icon-notice'
-        },
-        {
-          to: 'home',
-          title: '我的主页',
-          icon: 'layui-icon-home'
         }
       ]
     }
@@ -168,7 +169,7 @@ export default {
   top: -10px;
 }
 .hidden {
-  height: 60px;
+  height: 70px;
   overflow: hidden;
 }
 </style>
