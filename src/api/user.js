@@ -6,6 +6,11 @@ const userSign = () => {
   return axios.get('/user/fav')
 }
 
+// 查询用户上一次签到的时间
+const userSignCreated = () => {
+  return axios.get('/user/fav-created')
+}
+
 // 更新用户基本资料
 const updateUserInfo = data => {
   return axios.post('/user/basic', data)
@@ -58,6 +63,7 @@ const getPostListPublic = data => {
 
 export {
   userSign,
+  userSignCreated,
   updateUserInfo,
   updateUsername,
   changePasswd,

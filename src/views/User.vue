@@ -34,14 +34,14 @@
           href="javascript:;"
           class="layui-btn layui-btn-primary fly-imActive"
           data-type="addFriend"
-          >加为好友</a
-        >
+          >加为好友
+        </a>
         <a
           href="javascript:;"
           class="layui-btn layui-btn-normal fly-imActive"
           data-type="chat"
-          >发起会话</a
-        >
+          >发起会话
+        </a>
       </div>
     </div>
 
@@ -176,6 +176,6 @@ export default {
 
 <style lang="scss" scoped>
 .jie-title {
-  color: #01AAED;
+  color: #01aaed;
 }
 </style>

@@ -119,19 +119,23 @@ export default {
     // 监听窗口大小发生变化
     this.codeWidth = this.$refs.textEdit.offsetWidth - 60
     this.codeHeight = this.$refs.textEdit.offsetHeight - 80
-    window.addEventListener('resize', () => {
-      this.codeWidth = this.$refs.textEdit.offsetWidth - 60
-      this.codeHeight = this.$refs.textEdit.offsetHeight - 80
-    })
+    window.addEventListener('resize', this.watchResize)
   },
   // 监听 文本框 数据变化
   updated () {
     this.$emit('changeContent', this.content)
   },
+  // 销毁监听
   beforeDestroy () {
     document.querySelector('body').removeEventListener('click', this.handleBodyClick)
+    window.removeEventListener('resize', this.watchResize)
   },
   methods: {
+    // 监听窗口大小发生变化
+    watchResize () {
+      this.codeWidth = this.$refs.textEdit.offsetWidth - 60
+      this.codeHeight = this.$refs.textEdit.offsetHeight - 80
+    },
     // 关闭组件框
     closeModal () {
       this.current = ''
