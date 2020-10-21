@@ -61,6 +61,16 @@ const getPostListPublic = data => {
   return axios.get('/public/latest-post?' + qs.stringify(data))
 }
 
+// 获取用户未读消息
+const getMsg = data => {
+  return axios.get('/user/getmsg?' + qs.stringify(data))
+}
+
+// 设置用户未读消息
+const setMsg = data => {
+  return axios.get('/user/setmsg?' + qs.stringify(data))
+}
+
 export {
   userSign,
   userSignCreated,
@@ -73,5 +83,7 @@ export {
   deletePostByUid,
   getInfo,
   getCommentList,
-  getPostListPublic
+  getPostListPublic,
+  getMsg,
+  setMsg
 }

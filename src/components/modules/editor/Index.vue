@@ -42,16 +42,32 @@
 
     <div ref="modal">
       <!-- 表情组件 -->
-      <face :isShow="current === 0" @closeEvent="closeModal" @addEvent="addFace"></face>
+      <face
+        :isShow="current === 0"
+        @closeEvent="closeModal"
+        @addEvent="addFace"
+      ></face>
 
       <!-- 上传图片组件 -->
-      <img-upload :isShow="current === 1" @closeEvent="closeModal" @addEvent="addPic"></img-upload>
+      <img-upload
+        :isShow="current === 1"
+        @closeEvent="closeModal"
+        @addEvent="addPic"
+      ></img-upload>
 
       <!-- 插入链接 -->
-      <link-add :isShow="current === 2" @closeEvent="closeModal" @addEvent="addLink"></link-add>
+      <link-add
+        :isShow="current === 2"
+        @closeEvent="closeModal"
+        @addEvent="addLink"
+      ></link-add>
 
       <!-- 插入引用 -->
-      <quote :isShow="current === 3" @closeEvent="closeModal" @addEvent="addQuote"></quote>
+      <quote
+        :isShow="current === 3"
+        @closeEvent="closeModal"
+        @addEvent="addQuote"
+      ></quote>
 
       <!-- 插入代码 -->
       <code-input
@@ -63,7 +79,11 @@
       ></code-input>
 
       <!-- 预览 -->
-      <preview :isShow="current === 6" :content="content" @closeEvent="closeModal()"></preview>
+      <preview
+        :isShow="current === 6"
+        :content="content"
+        @closeEvent="closeModal()"
+      ></preview>
     </div>
   </div>
 </template>
@@ -234,38 +254,6 @@ export default {
 </script>
 
 <style lang="scss">
-@keyframes bounceIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-@keyframes bounceOut {
-  0% {
-    transform: scale(1);
-  }
-  30% {
-    transform: scale(1.05);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.7);
-  }
-}
-
-.fade-leave-active {
-  animation: bounceOut 0.3s;
-}
-
-.fade-enter-active,
-.fade-enter-to {
-  animation: bounceIn 0.3s;
-}
-
 .fly-editor {
   height: 260px;
 }

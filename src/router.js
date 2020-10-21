@@ -233,6 +233,10 @@ router.beforeEach((to, from, next) => {
       store.commit('setToken', token)
       store.commit('setUserInfo', userInfo)
       store.commit('setIsLogin', true)
+      // 鉴权通过则初始化 WebSocket
+      if (!store.state.ws) {
+        store.commit('initWebSocket', {})
+      }
     } else {
       localStorage.clear()
     }

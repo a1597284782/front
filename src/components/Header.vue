@@ -6,7 +6,7 @@
       </a>
       <ul class="layui-nav fly-nav layui-hide-xs">
         <li class="layui-nav-item layui-this">
-          <a href="/"> <i class="iconfont icon-jiaoliu"></i>交流 </a>
+          <router-link :to="{path: '/'}"><i class="iconfont icon-jiaoliu"></i>交流</router-link>
         </li>
         <li class="layui-nav-item">
           <a href="javascript: void(0);">
@@ -75,9 +75,11 @@
                 </router-link>
               </dd>
               <dd>
-                <router-link :to="{ name: 'home', params: { uid: userInfo._id } }">
+                <router-link
+                  :to="{ name: 'home', params: { uid: userInfo._id } }"
+                >
                   <i class="layui-icon layui-icon-home"></i>
-                 我的主页
+                  我的主页
                 </router-link>
               </dd>
 
@@ -92,6 +94,17 @@
               </dd>
             </dl>
           </li>
+          <div class="fly-nav-msg" v-show="num.message && num.message !== 0">
+            {{ num.message }}
+          </div>
+          <transition name="fade">
+            <div class="layui-layer-tips" v-show="hasMsg">
+              <div class="layui-layer-content">
+                您有{{ num.message }}条未读消息
+                <i class="layui-layer-TipsG layui-layer-TipsB"></i>
+              </div>
+            </div>
+          </transition>
         </template>
       </ul>
     </div>
@@ -99,6 +112,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'Header',
   data () {
@@ -118,10 +133,26 @@ export default {
           title: '我的消息',
           icon: 'layui-icon-notice'
         }
-      ]
+      ],
+      // 是否显示未读消息
+      hasMsg: false
+    }
+  },
+  watch: {
+    // 监听 未读消息 数量发送变化则显示弹窗
+    num (newval, oldval) {
+      if (newval.event && newval !== oldval) {
+        this.hasMsg = true
+        setTimeout(() => {
+          this.hasMsg = false
+        }, 2000)
+      }
     }
   },
   computed: {
+    ...mapState({
+      num: state => state.num
+    }),
     isShow () {
       return this.$store.state.isLogin
     },
@@ -171,5 +202,12 @@ export default {
 .hidden {
   height: 70px;
   overflow: hidden;
+}
+.layui-layer-tips {
+  position: fixed;
+  white-space: nowrap;
+  right: 0;
+  top: 60px;
+  z-index: 2000;
 }
 </style>
