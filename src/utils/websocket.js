@@ -34,7 +34,6 @@ class WebSocktClient {
 
   // 链接开始时触发
   onOpen () {
-    console.log('开始', this.handle)
     // 发起鉴权
     this.send(
       JSON.stringify({
@@ -42,8 +41,6 @@ class WebSocktClient {
         message: 'Bearer ' + store.state.token
       })
     )
-    // 断线重连
-    // this.checkServer()
   }
 
   // 接受服务端消息时触发
@@ -76,13 +73,11 @@ class WebSocktClient {
 
   // 监听关闭
   onClose () {
-    console.log('关闭')
     this.ws.close()
   }
 
   // 监听报错
   onError () {
-    console.log('报错')
     // 当连接失败时，触发error事件
     // 连接失败之后，1s进行断线重连！
     setTimeout(() => {
@@ -92,7 +87,6 @@ class WebSocktClient {
 
   // 断线重连
   checkServer () {
-    console.log('心跳')
     clearTimeout(this.handle)
 
     this.handle = setTimeout(() => {

@@ -149,7 +149,7 @@ export default {
     },
     // 用户签到了多少天
     count () {
-      if (this.$store.state.userInfo !== {}) {
+      if (this.$store.state.userInfo !== {} && this.$store.state.userInfo != null) {
         if (typeof this.$store.state.userInfo.count !== 'undefined') {
           return this.$store.state.userInfo.count
         } else {
