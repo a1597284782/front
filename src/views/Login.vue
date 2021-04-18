@@ -193,7 +193,6 @@ export default {
       }).then(res => {
         // console.log('submit -> res', res)
         if (res.code === 200) {
-          console.log('submit -> res', res.data)
           res.data.username = this.username
           // 登陆成功后 保存 用户信息
           this.$store.commit('setUserInfo', res.data)
