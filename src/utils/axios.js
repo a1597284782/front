@@ -71,7 +71,6 @@ class HttpRequest {
     // 添加响应拦截器
     instance.interceptors.response.use(
       res => {
-        // // console.log('res:', res)
         // 对响应数据做点什么
         const key = res.config.url + '&' + res.config.method
         this.removePending(key)

@@ -42,16 +42,32 @@
 
     <div ref="modal">
       <!-- 表情组件 -->
-      <face :isShow="current === 0" @closeEvent="closeModal" @addEvent="addFace"></face>
+      <face
+        :isShow="current === 0"
+        @closeEvent="closeModal"
+        @addEvent="addFace"
+      ></face>
 
       <!-- 上传图片组件 -->
-      <img-upload :isShow="current === 1" @closeEvent="closeModal" @addEvent="addPic"></img-upload>
+      <img-upload
+        :isShow="current === 1"
+        @closeEvent="closeModal"
+        @addEvent="addPic"
+      ></img-upload>
 
       <!-- 插入链接 -->
-      <link-add :isShow="current === 2" @closeEvent="closeModal" @addEvent="addLink"></link-add>
+      <link-add
+        :isShow="current === 2"
+        @closeEvent="closeModal"
+        @addEvent="addLink"
+      ></link-add>
 
       <!-- 插入引用 -->
-      <quote :isShow="current === 3" @closeEvent="closeModal" @addEvent="addQuote"></quote>
+      <quote
+        :isShow="current === 3"
+        @closeEvent="closeModal"
+        @addEvent="addQuote"
+      ></quote>
 
       <!-- 插入代码 -->
       <code-input
@@ -63,7 +79,11 @@
       ></code-input>
 
       <!-- 预览 -->
-      <preview :isShow="current === 6" :content="content" @closeEvent="closeModal()"></preview>
+      <preview
+        :isShow="current === 6"
+        :content="content"
+        @closeEvent="closeModal()"
+      ></preview>
     </div>
   </div>
 </template>
@@ -119,19 +139,23 @@ export default {
     // 监听窗口大小发生变化
     this.codeWidth = this.$refs.textEdit.offsetWidth - 60
     this.codeHeight = this.$refs.textEdit.offsetHeight - 80
-    window.addEventListener('resize', () => {
-      this.codeWidth = this.$refs.textEdit.offsetWidth - 60
-      this.codeHeight = this.$refs.textEdit.offsetHeight - 80
-    })
+    window.addEventListener('resize', this.watchResize)
   },
   // 监听 文本框 数据变化
   updated () {
     this.$emit('changeContent', this.content)
   },
+  // 销毁监听
   beforeDestroy () {
     document.querySelector('body').removeEventListener('click', this.handleBodyClick)
+    window.removeEventListener('resize', this.watchResize)
   },
   methods: {
+    // 监听窗口大小发生变化
+    watchResize () {
+      this.codeWidth = this.$refs.textEdit.offsetWidth - 60
+      this.codeHeight = this.$refs.textEdit.offsetHeight - 80
+    },
     // 关闭组件框
     closeModal () {
       this.current = ''
@@ -171,17 +195,14 @@ export default {
         const selectRange = document.selection.createRange()
         selectRange.moveStart('character', -elem.value.length)
         cursorPos = selectRange.text.length
-        console.log('getPos -> cursorPos1', cursorPos)
       } else if (elem.selectionStart || elem.selectionStart === '0') {
         // 其他浏览器
         cursorPos = elem.selectionStart
-        console.log('getPos -> cursorPos2', cursorPos)
       }
       this.pos = cursorPos
     },
     // 添加表情
     addFace (item) {
-      console.log('addFace -> item', item)
       const inserContent = ` face${item}`
       this.insert(inserContent)
       this.pos += inserContent.length
@@ -230,38 +251,6 @@ export default {
 </script>
 
 <style lang="scss">
-@keyframes bounceIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-@keyframes bounceOut {
-  0% {
-    transform: scale(1);
-  }
-  30% {
-    transform: scale(1.05);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.7);
-  }
-}
-
-.fade-leave-active {
-  animation: bounceOut 0.3s;
-}
-
-.fade-enter-active,
-.fade-enter-to {
-  animation: bounceIn 0.3s;
-}
-
 .fly-editor {
   height: 260px;
 }

@@ -1,5 +1,5 @@
 import { getCode } from '@/api/login'
-import uuid from 'uuid/v4'
+import { v4 as uuid } from 'uuid'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 
 export default {

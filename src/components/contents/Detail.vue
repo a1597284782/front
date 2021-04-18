@@ -60,15 +60,51 @@
               >{{ tag.name }}</span
             >
 
-            <!-- <div class="fly-admin-box" data-id="123">
-              <span class="layui-btn layui-btn-xs jie-admin" type="del">删除</span>
+            <div v-hasRole="'admin'">
+              <div class="fly-admin-box" data-id="123">
+                <span
+                  v-hasPermission="['get', 'delete']"
+                  class="layui-btn layui-btn-xs jie-admin"
+                  type="del"
+                  >删除</span
+                >
 
-              <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="1">置顶</span>
-              <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="0" style="background-color:#ccc;">取消置顶</span>
+                <span
+                  v-if="page.isTop === '0'"
+                  class="layui-btn layui-btn-xs jie-admin"
+                  type="set"
+                  field="stick"
+                  rank="1"
+                  >置顶</span
+                >
+                <span
+                  v-else
+                  class="layui-btn layui-btn-xs jie-admin"
+                  type="set"
+                  field="stick"
+                  rank="0"
+                  style="background-color: #ccc"
+                  >取消置顶</span
+                >
 
-              <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="1">加精</span>
-              <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="0" style="background-color:#ccc;">取消加精</span>
-            </div>-->
+                <!-- <span
+                  class="layui-btn layui-btn-xs jie-admin"
+                  type="set"
+                  field="status"
+                  rank="1"
+                  >加精</span
+                >
+                <span
+                  class="layui-btn layui-btn-xs jie-admin"
+                  type="set"
+                  field="status"
+                  rank="0"
+                  style="background-color: #ccc"
+                  >取消加精</span
+                > -->
+              </div>
+            </div>
+
             <span class="fly-list-nums">
               <a>
                 <i class="iconfont" title="回答">&#xe60c;</i>
@@ -83,13 +119,19 @@
           <div class="detail-about">
             <router-link
               class="fly-avatar"
-              :to="{ name: 'home', params: { uid: page.uid ? page.uid._id : '' } }"
+              :to="{
+                name: 'home',
+                params: { uid: page.uid ? page.uid._id : '' },
+              }"
             >
               <img :src="page.uid ? page.uid.pic : ''" />
             </router-link>
             <div class="fly-detail-user">
               <router-link
-                :to="{ name: 'home', params: { uid: page.uid ? page.uid._id : '' } }"
+                :to="{
+                  name: 'home',
+                  params: { uid: page.uid ? page.uid._id : '' },
+                }"
                 class="fly-link"
               >
                 <cite>{{ page.uid ? page.uid.name : '' }}</cite>
@@ -397,7 +439,6 @@ export default {
     // 获取文章详情
     getPostDetail () {
       getDetail(this.tid).then(res => {
-        console.log('getPostDetail -> res', res)
         if (res.code === 200) {
           this.page = res.data
         }
@@ -410,7 +451,6 @@ export default {
         page: this.current,
         limit: this.size
       }).then(res => {
-        console.log('getComents -> res', res)
         if (res.code === 200) {
           this.comments = res.data
           this.total = res.total
@@ -456,7 +496,6 @@ export default {
       }
 
       // 编辑评论
-      console.log('submit -> this.editInfo.cid', this.editInfo.cid)
       if (this.editInfo.cid != null && this.editInfo.cid !== '') {
         const obj = { ...this.editInfo }
         delete obj.item
@@ -532,7 +571,6 @@ export default {
     setBest (item) {
       this.$confirm('确定采纳为最佳答案吗？', () => {
         // 确定
-        console.log('setBest -> item', item._id)
         setCommentBest({
           cid: item._id,
           tid: this.tid
@@ -549,7 +587,6 @@ export default {
     // 点赞
     hands (item) {
       setHands({ cid: item._id }).then(res => {
-        console.log('hands -> res', res)
         if (res.code === 200) {
           this.$pop('', res.msg)
           item.handed = '1'
@@ -618,5 +655,9 @@ export default {
 }
 .jieda-body {
   margin: 25px 0 20px !important;
+}
+.fly-admin-box {
+  margin-left: 0;
+  margin-top: 15px;
 }
 </style>

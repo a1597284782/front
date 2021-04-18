@@ -6,6 +6,11 @@ const userSign = () => {
   return axios.get('/user/fav')
 }
 
+// 查询用户上一次签到的时间
+const userSignCreated = () => {
+  return axios.get('/user/fav-created')
+}
+
 // 更新用户基本资料
 const updateUserInfo = data => {
   return axios.post('/user/basic', data)
@@ -56,8 +61,19 @@ const getPostListPublic = data => {
   return axios.get('/public/latest-post?' + qs.stringify(data))
 }
 
+// 获取用户未读消息
+const getMsg = data => {
+  return axios.get('/user/getmsg?' + qs.stringify(data))
+}
+
+// 设置用户未读消息
+const setMsg = data => {
+  return axios.get('/user/setmsg?' + qs.stringify(data))
+}
+
 export {
   userSign,
+  userSignCreated,
   updateUserInfo,
   updateUsername,
   changePasswd,
@@ -67,5 +83,7 @@ export {
   deletePostByUid,
   getInfo,
   getCommentList,
-  getPostListPublic
+  getPostListPublic,
+  getMsg,
+  setMsg
 }

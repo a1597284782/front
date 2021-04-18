@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import WebSocktClient from '@/utils/websocket'
 
 Vue.use(Vuex)
 
@@ -11,9 +12,17 @@ export default new Vuex.Store({
     isLogin: false,
     token: '',
     // 用户信息
-    userInfo: {}
+    userInfo: {},
+    ws: null,
+    // 未读消息总数
+    num: 0
   },
   mutations: {
+    // 初始化 WebSocket
+    initWebSocket (state, config) {
+      state.ws = new WebSocktClient(config)
+      state.ws.init()
+    },
     // 更新 sid
     setSid (state, value) {
       state.sid = value
@@ -34,8 +43,16 @@ export default new Vuex.Store({
     // 设置登陆状态
     setIsLogin (state, value) {
       state.isLogin = value
-      console.log('setIsLogin -> value', value)
+    },
+    // 发送消息
+    setMessage (state, value) {
+      state.num = value
     }
   },
-  actions: {}
+  actions: {
+    // ws 发送消息
+    message ({ commit }, msg) {
+      commit('setMessage', msg)
+    }
+  }
 })

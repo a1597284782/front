@@ -52,7 +52,6 @@ export default {
         }
       }).catch((err) => {
         if (err) {
-          console.log('_getList -> err', err)
           this.$alert(err.message)
         }
       })

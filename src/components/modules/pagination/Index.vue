@@ -207,7 +207,6 @@ export default {
       const len = this.totalPages
       // 生成 对应页码的数组
       this.pages = _.range(1, len + 1)
-      console.log('initPages -> this.pages', this.pages)
     },
     // 显示隐藏下拉
     changeFav () {
@@ -255,7 +254,6 @@ export default {
     jumpTo (event) {
       const result = parseInt(event.target.value)
       let cur = this.current
-      console.log('jumpTo -> event', event, typeof result)
       // 判断输入的页码是否合法
       if (result > this.totalPages || result <= 0 || isNaN(result)) {
         this.$pop('shake', '请输入正确的页码')

@@ -268,7 +268,6 @@ export default {
         code: this.code,
         sid: this.$store.state.sid
       }).then(res => {
-        console.log('submit -> res', res)
         if (res.code === 200) {
           localStorage.setItem('editData', '')
           this.$pop('', res.msg + '2秒后跳转')
