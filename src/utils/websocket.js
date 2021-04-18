@@ -51,7 +51,6 @@ class WebSocktClient {
       case 'noauth':
         // 鉴权失败
         // 路由跳转
-        console.log('鉴权失败')
         break
 
       case 'heartbeat':

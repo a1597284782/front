@@ -195,17 +195,14 @@ export default {
         const selectRange = document.selection.createRange()
         selectRange.moveStart('character', -elem.value.length)
         cursorPos = selectRange.text.length
-        console.log('getPos -> cursorPos1', cursorPos)
       } else if (elem.selectionStart || elem.selectionStart === '0') {
         // 其他浏览器
         cursorPos = elem.selectionStart
-        console.log('getPos -> cursorPos2', cursorPos)
       }
       this.pos = cursorPos
     },
     // 添加表情
     addFace (item) {
-      console.log('addFace -> item', item)
       const inserContent = ` face${item}`
       this.insert(inserContent)
       this.pos += inserContent.length

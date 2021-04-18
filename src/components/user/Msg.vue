@@ -97,7 +97,6 @@ export default {
         page: this.page,
         limit: this.limit
       }).then(res => {
-        console.log('getMsgAll -> res', res)
         if (res.code === 200) {
           this.lists = res.data
           this.total = res.total

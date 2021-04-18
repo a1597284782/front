@@ -32,11 +32,11 @@ export default {
     },
     success: {
       type: Function,
-      default: () => { console.log('点击了success') }
+      default: () => {}
     },
     cancel: {
       type: Function,
-      default: () => { console.log('点击了cancel') }
+      default: () => {}
     }
   },
   methods: {

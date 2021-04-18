@@ -439,7 +439,6 @@ export default {
     // 获取文章详情
     getPostDetail () {
       getDetail(this.tid).then(res => {
-        console.log('getPostDetail -> res', res)
         if (res.code === 200) {
           this.page = res.data
         }
@@ -452,7 +451,6 @@ export default {
         page: this.current,
         limit: this.size
       }).then(res => {
-        console.log('getComents -> res', res)
         if (res.code === 200) {
           this.comments = res.data
           this.total = res.total
@@ -498,7 +496,6 @@ export default {
       }
 
       // 编辑评论
-      console.log('submit -> this.editInfo.cid', this.editInfo.cid)
       if (this.editInfo.cid != null && this.editInfo.cid !== '') {
         const obj = { ...this.editInfo }
         delete obj.item
@@ -574,7 +571,6 @@ export default {
     setBest (item) {
       this.$confirm('确定采纳为最佳答案吗？', () => {
         // 确定
-        console.log('setBest -> item', item._id)
         setCommentBest({
           cid: item._id,
           tid: this.tid
@@ -591,7 +587,6 @@ export default {
     // 点赞
     hands (item) {
       setHands({ cid: item._id }).then(res => {
-        console.log('hands -> res', res)
         if (res.code === 200) {
           this.$pop('', res.msg)
           item.handed = '1'

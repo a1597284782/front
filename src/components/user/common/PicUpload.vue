@@ -39,7 +39,6 @@ export default {
       const formData = new FormData()
       if (file.length > 0) {
         formData.append('file', file[0])
-        console.log('upload -> file[0]', file[0])
       }
       // 上传图片 -> uploadImg
       uploadImg(formData).then(res => {

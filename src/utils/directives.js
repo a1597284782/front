@@ -21,7 +21,6 @@ export default {
   },
   hasPermission: {
     inserted: function (el, binding, vnode) {
-      console.log('🚀 ~ file: directives.js ~ line 23 ~ el', el, el.parentNode)
       const types = vnode.context.$route.meta.types
       const values = binding.value
       let flag = true

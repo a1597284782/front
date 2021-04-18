@@ -45,7 +45,6 @@ const getDetail = tid => {
       Authorization: 'Bearer ' + store.state.token
     }
   }
-  console.log('headers', headers)
   return axios.get('/public/content/detail?tid=' + tid, { headers })
 }
 

@@ -64,7 +64,6 @@ export default {
     },
     // 上传图片
     upload (e) {
-      console.log('upload -> e', e)
       const file = e.target.files
       const formData = new FormData()
       if (file.length > 0) {

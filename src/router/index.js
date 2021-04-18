@@ -17,7 +17,6 @@ router.beforeEach((to, from, next) => {
   const userInfo = JSON.parse(localStorage.getItem('userInfo'))
   if (token !== '' && token != null) {
     const payload = jwt.decode(token)
-    console.log('payload', payload)
     // 判断 token 是否过期， 方法二
     // console.log(JSON.parse(atob(token.split('.')[1])).exp * 1000 > (new Date()).getTime())
     // 判断 token 是否过期， 方法一

@@ -54,13 +54,10 @@ export default {
   watch: {
     // 监听 点击分类状态
     current (newval, oldval) {
-      console.log('current:' + oldval + ',' + newval)
-
       this.init()
     },
     '$route' (newval, oldval) {
       const catalog = this.$route.params.catalog
-      console.log('mounted -> catalog', catalog)
       if (typeof catalog !== 'undefined' && catalog !== '') {
         this.catalog = catalog
       }
@@ -69,7 +66,6 @@ export default {
   },
   mounted () {
     const catalog = this.$route.params.catalog
-    console.log('mounted -> catalog2', catalog)
     if (typeof catalog !== 'undefined' && catalog !== '') {
       this.catalog = catalog
     }
@@ -121,7 +117,6 @@ export default {
       }).catch((err) => {
         // this.isRepeat = false
         if (err) {
-          console.log('_getList -> err', err)
           this.$alert(err.message)
         }
       })
@@ -137,7 +132,6 @@ export default {
         return
       }
       this.current = val
-      console.log('search -> val', val)
 
       switch (val) {
         // 未结

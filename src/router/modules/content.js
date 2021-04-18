@@ -19,7 +19,6 @@ export default [
     meta: { requiresAuth: true },
     component: Edit,
     beforeEnter: (to, from, next) => {
-      console.log('from', from)
       if (
         ['detail', 'mypost'].indexOf(from.name) !== -1 &&
         to.params.page &&

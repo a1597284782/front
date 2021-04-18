@@ -146,7 +146,6 @@ export default {
         deletePostByUid({
           tid: item._id
         }).then(res => {
-          console.log('deletePost -> res', res)
           if (res.code === 200) {
             this.$pop('', '删除成功')
             this.list.splice(this.list.indexOf(item), 1)
