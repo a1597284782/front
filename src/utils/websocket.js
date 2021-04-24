@@ -1,10 +1,11 @@
 import store from '@/store'
+import setting from '@/config'
 
 class WebSocktClient {
   constructor (config = {}) {
     const defautConfig = {
-      url: '127.0.0.1',
-      port: '3001',
+      url: setting.wsconfig.url,
+      port: setting.wsconfig.port,
       protocol: 'ws',
       timeInterval: 5 * 1000
     }
