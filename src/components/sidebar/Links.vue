@@ -3,13 +3,11 @@
     <h3 class="fly-panel-title">友情链接</h3>
     <dl class="fly-panel-main">
       <dd v-for="(item, index) in lists" :key="'links' + index">
-        <a :href="item.link" target="_blank">{{item.title}}</a>
+        <a :href="item.link" target="_blank">{{ item.title }}</a>
       </dd>
 
       <dd>
-        <a
-          class="fly-link"
-        >申请友链</a>
+        <!-- <a class="fly-link">申请友链</a> -->
       </dd>
     </dl>
   </div>
@@ -27,7 +25,7 @@ export default {
     }
   },
   mounted () {
-    getLinks().then(res => {
+    getLinks().then((res) => {
       if (res.code === 200) {
         this.lists = res.data
       }
