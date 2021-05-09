@@ -1,8 +1,8 @@
 <template>
   <div class="fly-header layui-bg-black">
     <div class="layui-container">
-      <a class="fly-logo hidden" href="javascript: void(0);">
-        <img src="../assets/img/logo-3.png" alt="layui" />
+      <a class="fly-logo hidden" href="/">
+        <img src="../assets/img/logo-3.png" alt="大前端logo" />
       </a>
       <ul class="layui-nav fly-nav layui-hide-xs">
         <li class="layui-nav-item layui-this">
@@ -98,7 +98,7 @@
             {{ num.message }}
           </div>
           <transition name="fade">
-            <div class="layui-layer-tips" v-show="hasMsg">
+            <div class="layui-layer-tips" v-show="hasMsg && num.message !== 0">
               <div class="layui-layer-content">
                 您有{{ num.message }}条未读消息
                 <i class="layui-layer-TipsG layui-layer-TipsB"></i>
