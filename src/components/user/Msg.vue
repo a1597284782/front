@@ -11,23 +11,24 @@
         id="LAY_delallmsg"
         @click="clearAll"
       >
-        清空全部消息
+        全部已读消息
       </button>
       <div id="LAY_minemsg" style="margin-top: 10px">
         <!--<div class="fly-none">您暂时没有最新消息</div>-->
         <ul class="mine-msg">
           <li v-for="(item, index) in lists" :key="'comments' + index">
             <blockquote class="layui-elem-quote">
-              <a href="/jump?username=Absolutely" target="_blank">
-                <cite>{{ item.cuid.name }}</cite>
-              </a>
-              回答了您的求解
-              <a
-                target="_blank"
-                href="/jie/8153.html/page/0/#item-1489505778669"
+              <router-link
+                :to="{ name: 'home', params: { uid: item.cuid._id } }"
               >
-                <cite>{{ item.title }}</cite>
-              </a>
+                <cite>{{ item.cuid.name }}</cite>
+              </router-link>
+              回答了您的帖子
+              <router-link
+                :to="{ name: 'detail', params: { tid: item.tid._id } }"
+              >
+                <cite>{{ item.tid.title }}</cite>
+              </router-link>
             </blockquote>
             <div v-richtext="item.content"></div>
             <p>
@@ -86,17 +87,16 @@ export default {
   computed: {
     ...mapState({
       // 总条数
-      num: state => state.num.message ? state.num.message : 0
+      num: (state) => (state.num.message ? state.num.message : 0)
     })
   },
   methods: {
-
     // 获取历史消息
     getMsgAll () {
       getMsg({
         page: this.page,
         limit: this.limit
-      }).then(res => {
+      }).then((res) => {
         if (res.code === 200) {
           this.lists = res.data
           this.total = res.total
@@ -116,7 +116,7 @@ export default {
 
     // 清空消息
     clearAll () {
-      setMsg().then(res => {
+      setMsg().then((res) => {
         if (res.code === 200) {
           this.lists = []
           this.$store.commit('setMessage', { message: 0 })
@@ -126,7 +126,7 @@ export default {
     },
     // 删除一条
     clear (item) {
-      setMsg({ id: item._id }).then(res => {
+      setMsg({ id: item._id }).then((res) => {
         if (res.code === 200) {
           // 删除一条
           this.getMsgAll()
@@ -139,5 +139,4 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-
 </style>
