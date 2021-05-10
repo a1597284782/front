@@ -1,12 +1,14 @@
 <template>
-  <div class="fly-header layui-bg-black">
+  <div class="fly-header layui-bg-black" style="z-index: 1">
     <div class="layui-container">
       <a class="fly-logo hidden" href="/">
         <img src="../assets/img/logo-3.png" alt="大前端logo" />
       </a>
       <ul class="layui-nav fly-nav layui-hide-xs">
         <li class="layui-nav-item layui-this">
-          <router-link :to="{path: '/'}"><i class="iconfont icon-jiaoliu"></i>交流</router-link>
+          <router-link :to="{ path: '/' }"
+            ><i class="iconfont icon-jiaoliu"></i>交流</router-link
+          >
         </li>
         <li class="layui-nav-item">
           <a href="javascript: void(0);">
@@ -151,17 +153,19 @@ export default {
   },
   computed: {
     ...mapState({
-      num: state => state.num
+      num: (state) => state.num
     }),
     isShow () {
       return this.$store.state.isLogin
     },
     userInfo () {
-      return this.$store.state.userInfo || {
-        name: '',
-        pic: '',
-        isVip: 0
-      }
+      return (
+        this.$store.state.userInfo || {
+          name: '',
+          pic: '',
+          isVip: 0
+        }
+      )
     }
   },
   methods: {
@@ -181,13 +185,17 @@ export default {
     },
     // 退出登陆
     logout () {
-      this.$confirm('确定退出码？', () => {
-        localStorage.clear()
-        this.$store.commit('setToken', '')
-        this.$store.commit('setUserInfo', '')
-        this.$store.commit('setIsLogin', false)
-        this.$router.push({ name: 'index' }, () => { })
-      }, () => { })
+      this.$confirm(
+        '确定退出码？',
+        () => {
+          localStorage.clear()
+          this.$store.commit('setToken', '')
+          this.$store.commit('setUserInfo', '')
+          this.$store.commit('setIsLogin', false)
+          this.$router.push({ name: 'index' }, () => {})
+        },
+        () => {}
+      )
     }
   }
 }

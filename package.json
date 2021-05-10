@@ -13,6 +13,7 @@
     "dayjs": "^1.8.34",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.20",
+    "nprogress": "^0.2.0",
     "qs": "^6.9.4",
     "svg-captcha": "^1.4.0",
     "uuid": "^8.3.0",
