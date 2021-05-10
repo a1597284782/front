@@ -2,9 +2,15 @@ import store from '@/store'
 import jwt from 'jsonwebtoken'
 import moment from 'dayjs'
 import routes from './routers'
+// 进度条
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 import Vue from 'vue'
 import Router from 'vue-router'
+
+// 进度条配置 -> 隐藏转轮
+NProgress.configure({ showSpinner: false })
 
 Vue.use(Router)
 
@@ -12,6 +18,8 @@ const router = new Router(routes)
 
 // 全局导航守卫
 router.beforeEach((to, from, next) => {
+  NProgress.start()
+
   const token = localStorage.getItem('token')
 
   const userInfo = JSON.parse(localStorage.getItem('userInfo'))
@@ -48,6 +56,11 @@ router.beforeEach((to, from, next) => {
     // 不需要用户登陆的页面
     next()
   }
+})
+
+router.afterEach(() => {
+  // finish progress bar
+  NProgress.done()
 })
 
 export default router
