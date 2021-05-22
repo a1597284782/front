@@ -109,7 +109,7 @@
                       >
                     </span>
                   </div>
-                  <div class="layui-form-item fly-form-app">
+                  <!-- <div class="layui-form-item fly-form-app">
                     <span>或者使用社交账号登入</span>
                     <a
                       href=""
@@ -123,7 +123,7 @@
                       class="iconfont icon-weibo"
                       title="微博登入"
                     ></a>
-                  </div>
+                  </div> -->
                 </form>
               </div>
             </div>

@@ -10,12 +10,11 @@
         <div class="btnCommon success" @click="successEvent()">确定</div>
       </div>
     </div>
-    <div class="mask" @click="closeMask()"></div>v
+    <div class="mask" @click="closeMask()"></div>
   </div>
 </template>
 
 <script>
-/* eslint-disable */
 export default {
   props: {
     type: {
@@ -61,7 +60,6 @@ export default {
       this.close()
     }
   }
-
 }
 </script>
 
@@ -101,7 +99,6 @@ $btn-dark: darken($btn-main, 5%);
   justify-content: space-around;
   width: 100%;
   padding: 0 10px;
-
 }
 .btnCommon {
   width: 105px;

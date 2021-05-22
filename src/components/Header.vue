@@ -1,10 +1,10 @@
 <template>
   <div class="fly-header layui-bg-black" style="z-index: 1">
     <div class="layui-container">
-      <a class="fly-logo hidden" href="/">
+      <router-link class="fly-logo hidden" :to="{ path: '/' }">
         <img src="../assets/img/logo-3.png" alt="大前端logo" />
-      </a>
-      <ul class="layui-nav fly-nav layui-hide-xs">
+      </router-link>
+      <!-- <ul class="layui-nav fly-nav layui-hide-xs">
         <li class="layui-nav-item layui-this">
           <router-link :to="{ path: '/' }"
             ><i class="iconfont icon-jiaoliu"></i>交流</router-link
@@ -20,7 +20,7 @@
             <i class="iconfont icon-ui"></i>框架
           </a>
         </li>
-      </ul>
+      </ul> -->
 
       <ul class="layui-nav fly-nav-user">
         <!-- 未登入的状态 -->
@@ -37,7 +37,7 @@
           <li class="layui-nav-item">
             <router-link :to="{ name: 'reg' }">注册</router-link>
           </li>
-          <li class="layui-nav-item layui-hide-xs">
+          <!-- <li class="layui-nav-item layui-hide-xs">
             <a
               href="javascript: void(0);"
               title="QQ登入"
@@ -50,7 +50,7 @@
               title="微博登入"
               class="iconfont icon-weibo"
             ></a>
-          </li>
+          </li> -->
         </template>
 
         <!-- 登入后的状态 -->

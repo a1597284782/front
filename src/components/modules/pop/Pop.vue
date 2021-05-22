@@ -1,6 +1,11 @@
 <template>
-  <div class="tips animation" v-show="isShow" :class="{'shake': type === 'shake'}" ref="tips">
-    <div class="content">{{msg}}</div>
+  <div
+    class="tips animation"
+    v-show="isShow"
+    :class="{ shake: type === 'shake' }"
+    ref="tips"
+  >
+    <div class="content">{{ msg }}</div>
   </div>
 </template>
 
