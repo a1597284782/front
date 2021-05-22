@@ -123,7 +123,7 @@
                   <div class="layui-form-item">
                     <button class="layui-btn" type="button" @click="validate().then(submit)">立即注册</button>
                   </div>
-                  <div class="layui-form-item fly-form-app">
+                  <!-- <div class="layui-form-item fly-form-app">
                     <span>或者直接使用社交账号快捷注册</span>
                     <a
                       href
@@ -137,7 +137,7 @@
                       class="iconfont icon-weibo"
                       title="微博登入"
                     ></a>
-                  </div>
+                  </div> -->
                 </form>
               </div>
             </div>
