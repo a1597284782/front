@@ -8,8 +8,9 @@
         class="fly-link"
         id="LAY_signinHelp"
         @click="showInfo()"
-        >说明</a
       >
+        说明
+      </a>
       <i class="fly-mid"></i>
       <a
         href="javascript:;"
@@ -22,8 +23,8 @@
       </a>
       <span class="fly-signin-days" v-show="isLogin">
         已连续签到
-        <cite>{{ count }}</cite
-        >天
+        <cite>{{ count }}</cite>
+        天
       </span>
     </div>
     <div class="fly-panel-main fly-signin-main">
@@ -37,8 +38,8 @@
         </button>
         <span>
           可获得
-          <cite>{{ favs }}</cite
-          >飞吻
+          <cite>{{ favs }}</cite>
+          飞吻
         </span>
       </template>
 
@@ -47,8 +48,8 @@
         <button class="layui-btn layui-btn-disabled">{{ msg }}</button>
         <span>
           获得了
-          <cite>{{ favs }}</cite
-          >飞吻
+          <cite>{{ favs }}</cite>
+          飞吻
         </span>
       </template>
     </div>
@@ -86,7 +87,7 @@ export default {
     }
   },
   mounted () {
-    userSignCreated().then(res => {
+    userSignCreated().then((res) => {
       if (res.code === 200) {
         // 判断用户上一次的签到时间与签到状态
         // 如果用户上一次签到时间与当天时间相差1天，则允许用户签到
@@ -149,7 +150,10 @@ export default {
     },
     // 用户签到了多少天
     count () {
-      if (this.$store.state.userInfo !== {} && this.$store.state.userInfo != null) {
+      if (
+        this.$store.state.userInfo !== {} &&
+        this.$store.state.userInfo != null
+      ) {
         if (typeof this.$store.state.userInfo.count !== 'undefined') {
           return this.$store.state.userInfo.count
         } else {
@@ -184,7 +188,7 @@ export default {
         this.$pop('shake', '请先登录')
         return
       }
-      userSign().then(res => {
+      userSign().then((res) => {
         const user = this.$store.state.userInfo
         if (res.code === 200) {
           user.favs = res.favs
@@ -209,15 +213,17 @@ export default {
       const time = setInterval(() => {
         seconds = moment(newDate + ' 00:00:00').diff(moment(), 'second')
         const hour = Math.floor(seconds / 3600)
-        const min = Math.floor(seconds % 3600 / 60)
+        const min = Math.floor((seconds % 3600) / 60)
         const second = seconds % 60
-        this.msg = `签到倒计时 ${hour}:${min < 10 ? '0' + min : min}:${second < 10 ? '0' + second : second}`
-      }, 1000)
+        this.msg = `签到倒计时 ${hour}:${min < 10 ? '0' + min : min}:${
+          second < 10 ? '0' + second : second
+        }`
 
-      if (seconds <= 0) {
-        clearInterval(time)
-        this.isSign = false
-      }
+        if (seconds <= 0) {
+          clearInterval(time)
+          this.isSign = false
+        }
+      }, 1000)
     }
   }
 }
